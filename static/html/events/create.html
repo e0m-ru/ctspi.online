@@ -1,0 +1,32 @@
+{% extends "header.html" %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block content %}
+{{ post.content|safe }}
+{{ post.description|safe }}
+
+<h1>Создание события</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="title">Название:</label>
+        <input type="text" name="title" id="title" required>
+        <br>
+        <label for="start_time">Время начала:</label>
+        <input type="date" name="start_time" id="start_time" required>
+        <br>
+        <label for="end_time">Время окончания:</label>
+        <input type="date" name="end_time" id="end_time" required>
+        <br>
+        <label for="descript">Описание:</label>
+        <textarea name="descript" id="descript" cols="30" rows="10"></textarea>
+        <br>
+        <label for="cat">Категория</label>
+        <input type="text" name="cat" id="cat" required>
+        <br>
+        <button type="submit">Создать</button>
+    </form>
+
+</div>
+
+{% endblock %}

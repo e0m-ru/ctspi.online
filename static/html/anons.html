@@ -1,0 +1,33 @@
+{% extends "header.html" %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block content %}
+{% include "player_clappr.html" %}
+<h1 id="anons_header"></h1>
+<form method="post">{% csrf_token %}
+    <textarea type="text" id="anons_input" placeholder="Введите строку анонса" cols="85" rows="3"
+        onkeydown="if(event.keyCode == 13 && event.ctrlKey) sendData()" autocomplete="on">
+</textarea>
+</form>
+<script>
+    function sendData() {
+        const url = '/write_anons';
+        const data = document.getElementById("anons_input").value;
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        fetch(url, {
+            method: 'POST',
+            body: data,
+            headers: { 'X-CSRFToken': csrftoken },
+            mode: 'same-origin' // Do not send CSRF token to another domain.
+        })
+            .then(response => response.text())
+            .then(result => {
+                console.log(result); // Выводим результат в консоль
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+    }
+</script>
+{% endblock %}

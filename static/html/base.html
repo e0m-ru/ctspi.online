@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css">
+    <title>{% block title %}My amazing site{% endblock %}</title>
+</head>
+
+<body>
+    <div class="root">
+        <header class="header">
+            {% block header %}
+            {% endblock %}
+        </header>
+
+        <main class="main">
+            <div class="main-big-content">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+
+
+        <footer class="footer">
+            {% block footer %}
+            {% endblock %}
+        </footer>
+    </div>
+</body>
+
+
+</html>

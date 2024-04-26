@@ -1,0 +1,26 @@
+#videoContainer {
+    width: 1024px;
+    max-width: 90vw;
+}
+
+.anons_string {
+    font-size: 0.75rem !important;
+    padding: 0.5rem !important;
+    z-index: 999;
+    position: absolute;
+    bottom: 1rem;
+    opacity: 0.75;
+    background-color: rgba(28, 119, 189, 0.75);
+    color: #FFF;
+    width: 100%;
+    opacity: .75;
+    transition: all 1s ease-in-out;
+}
+
+#player:hover .anons_string {
+    opacity: 0;
+}
+
+#id-player :first-child {
+    margin: 0 auto;
+}

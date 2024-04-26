@@ -1,0 +1,9 @@
+{% extends "header.html" %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block content %}
+{{ post.content|safe }}
+{{ post.description|safe }}
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "header.html" %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block content %}
+{{ post.content|safe }}
+{{ post.description|safe }}
+
+<h1>Детали события</h1>
+<p>Название: {{ event.title }}</p>
+<p>Время начала: {{ event.start_time }}</p>
+<p>Время окончания: {{ event.end_time }}</p>
+<p>Описание: {{ event.descript }}</p>
+<p>Категория: {{ event.cat }}</p>
+<div style="display: grid; grid-template-columns: 1fr 1fr;">
+    <a href="/event/{{event.id}}/update/" class="button button-edit">Изменить</a>
+    <a href="/event/{{event.id}}/delete/" class="button button-delete">Удалить</a>
+
+
+
+</div>
+
+{% endblock %}

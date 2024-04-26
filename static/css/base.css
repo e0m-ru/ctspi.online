@@ -1,0 +1,131 @@
+:root {
+    --base_color: #1b75bc;
+    --dark-blue: #072f4e;
+    --light-blue: #bbd0df;
+    --white: #fefefe;
+    --light: #ccc;
+    --gray: #888;
+}
+
+html,
+body {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding: 0px;
+    margin: 0px;
+    background-color: var(--dark-blue);
+}
+
+.root {
+    display: grid;
+    grid-template-rows: min-content auto min-content;
+}
+
+header,
+footer {
+    color: var(--light-blue);
+    background-color: var(--base_color);
+    /* position: sticky; */
+}
+
+header {
+    padding: 0.5em;
+    top: 0;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+}
+
+footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0 1rem;
+}
+
+footer * {
+    margin: 1rem, auto;
+    color: var(--white);
+    text-decoration: none;
+    text-align: center;
+}
+
+.main {
+    padding: 0.5em;
+    max-width: 1024px;
+    margin: auto;
+    background-color: var(--white);
+}
+
+.main-big-content {
+    height: 100%;
+    width: 100%;
+}
+
+
+.main {
+    /* min-height: 100vh; */
+}
+
+@media only screen and (min-width: 1024px) {
+    .main {
+        margin: auto;
+        padding: 1em 10em 5em 10em;
+    }
+}
+
+.logo img {
+    height: 35px;
+}
+
+header h1 {
+    font-size: 1.5rem;
+    padding: 0;
+    margin: 0;
+}
+
+@media screen and (max-width: 900px) {
+    header h1 {
+        display: none;
+    }
+}
+
+input {
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.button,
+button {
+    text-transform: uppercase;
+    outline: 0;
+    background: #4CAF50;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
+
+.button:hover,
+.button:active,
+.button:focus,
+button:hover,
+button:active,
+button:focus {
+    background: #43A047;
+}
+
+form {
+    text-align: center;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+}

@@ -1,0 +1,37 @@
+.event-card {
+    border: 1px solid var(--light);
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: var(--white);
+    padding: 1rem;
+}
+
+.event-card>.header {
+    background-color: inherit;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.event-card>.header>.id,
+.event-card>.header>.category,
+.event-card>.header>.date {
+    font-size: 12px;
+    color: var(--light);
+}
+.event-card>.header>.category {
+    text-align: left;
+}
+.event-card>.header>.date {
+    text-align: center;
+}
+.event-card>.header>.id {
+    text-align: right;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+a:hover {
+    text-decoration: underline;
+}

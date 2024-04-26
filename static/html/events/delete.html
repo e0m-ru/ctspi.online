@@ -1,0 +1,17 @@
+{% extends "header.html" %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block content %}
+{{ post.content|safe }}
+{{ post.description|safe }}
+    <h1>Удаление события</h1>
+    <p>Вы уверены, что хотите удалить событие "{{ event.title }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Удалить</button>
+    </form>
+
+</div>
+
+{% endblock %}
