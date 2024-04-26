@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "header.html" %}
+{% block title %}404 error{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404</title>
-</head>
-
-<body>
-    <h1>ASSA 404</h1>
-    {{name|safe}}
-</body>
-
-
-</html>
+{% block content %}
+    <h1 class="">Ошибка 404</h1>
+    <p>нет такой страницы: ctspi.online{{name|safe}}</p>
+{% endblock %}

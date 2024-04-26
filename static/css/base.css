@@ -5,6 +5,8 @@
     --white: #fefefe;
     --light: #ccc;
     --gray: #888;
+    --green: #43A047;
+    --red: #a04343;
 }
 
 html,
@@ -97,19 +99,17 @@ input {
     box-sizing: border-box;
     font-size: 14px;
 }
+
 .button,
 button {
-    text-transform: uppercase;
-    outline: 0;
-    background: #4CAF50;
-    width: 100%;
-    border: 0;
     padding: 15px;
-    color: #FFFFFF;
-    font-size: 14px;
-    -webkit-transition: all 0.3 ease;
-    transition: all 0.3 ease;
+    color: var(--light);
     cursor: pointer;
+    opacity: .9;
+    margin: 1rem;
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+    width: auto;
 }
 
 .button:hover,
@@ -118,7 +118,16 @@ button {
 button:hover,
 button:active,
 button:focus {
-    background: #43A047;
+    text-decoration: none;
+    color: var(--white);
+    opacity: 1;
+}
+
+.bg_green {
+        background: var(--green);
+}
+.bg_red {
+        background: var(--red);
 }
 
 form {
@@ -128,4 +137,14 @@ form {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     position: relative;
+}
+
+
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--dark-blue) var(--base_color);
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: hsl(0 0% 50%);
 }

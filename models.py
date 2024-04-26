@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Main_contents(models.Model):
     name = models.CharField(max_length=16, unique=True)
@@ -19,13 +19,12 @@ class Department(models.Model):
         return self.title
 
 
-class Events(models.Model):
+class Event(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
-    start_time = models.DateField(blank=True, null=True)
-    end_time = models.DateField(blank=True, null=True)
-    descript = models.TextField(blank=True, null=True)
-    cat = models.CharField(max_length=20, blank=True, null=True)
+    s_time = models.DateField(blank=True, null=True)
+    e_time = models.DateField(blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    category = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'events'

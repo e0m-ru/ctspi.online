@@ -12,9 +12,9 @@
 <p>Время окончания: {{ event.end_time }}</p>
 <p>Описание: {{ event.descript }}</p>
 <p>Категория: {{ event.cat }}</p>
-<div style="display: grid; grid-template-columns: 1fr 1fr;">
-    <a href="/event/{{event.id}}/update/" class="button button-edit">Изменить</a>
-    <a href="/event/{{event.id}}/delete/" class="button button-delete">Удалить</a>
+<div style="display: grid; grid-template-columns: 1fr 1fr auto;">
+    <a href="/event/{{event.id}}/update/" class="button bg_green">Изменить</a>
+    <a href="/event/{{event.id}}/delete/" class="button bg_red">Удалить</a>
 
 
 

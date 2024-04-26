@@ -1,6 +1,6 @@
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from .models import Events, Main_contents, Department
+from .models import Event, Main_contents, Department
 from ctspi_config.settings import STATIC_ROOT, BASE_DIR
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -50,7 +50,7 @@ def write_anons(request):
     return custom_response
 
 def blog(request):
-    paginator = Paginator(Events.objects.all().order_by(
+    paginator = Paginator(Event.objects.all().order_by(
         '-start_time'), 5)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -63,7 +63,7 @@ class EventListView(View):
     """Список событий.
     """
     def get(self, request):
-        events = Events.objects.all()
+        events = Event.objects.all()
         context = {
             'events': events
         }
@@ -84,7 +84,7 @@ class EventCreateView(View):
         cat = request.POST['cat']
 
         try:
-            event = Events.objects.create(
+            event = Event.objects.create(
             title=title,
             start_time=start_time,
             end_time=end_time,
@@ -100,8 +100,8 @@ class EventDetailView(View):
     """
     def get(self, request, pk):
         try:
-            event = Events.objects.get(pk=pk)
-        except Events.DoesNotExist:
+            event = Event.objects.get(pk=pk)
+        except Event.DoesNotExist:
             raise Http404(
                 "Событие не найдено.")
         context = {
@@ -114,13 +114,13 @@ class EventUpdateView(View):
     """
     def get(self, request, pk):
         try:
-            event = Events.objects.get(pk=pk)
-        except Events.DoesNotExist:
+            event = Event.objects.get(pk=pk)
+        except Event.DoesNotExist:
             raise Http404("Событие не найдено.")
         return render(request, 'events/update.html', {'event': event})
 
     def post(self, request, pk):
-        event = Events.objects.get(pk=pk)
+        event = Event.objects.get(pk=pk)
         title = request.POST['title']
         start_time = request.POST['start_time']
         end_time = request.POST['end_time']
@@ -138,13 +138,13 @@ class EventDeleteView(View):
     """Удаление события.
     """
     def get(self, request, pk):
-        event = Events.objects.get(pk=pk)
+        event = Event.objects.get(pk=pk)
         context = {
             'event': event
         }
         return render(request, 'events/delete.html', context)
 
     def post(self, _, pk):
-        event = Events.objects.get(pk=pk)
-        event.delete(using="psql")
+        event = Event.objects.get(pk=pk)
+        event.delete()
         return HttpResponseRedirect(reverse('event-list'))
