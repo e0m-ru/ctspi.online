@@ -114,7 +114,7 @@ input {
 .button,
 button {
     padding: 15px;
-    color: var(--light);
+    color: var(--light-blue);
     cursor: pointer;
     opacity: .9;
     margin: 1rem;
@@ -139,6 +139,9 @@ button:focus {
 }
 .bg_red {
         background: var(--red);
+}
+.bg_main {
+        background: var(--main-color);
 }
 
 form {

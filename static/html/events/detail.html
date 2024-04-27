@@ -8,10 +8,10 @@
 
 <h1>Детали события</h1>
 <p>Название: {{ event.title }}</p>
-<p>Время начала: {{ event.start_time }}</p>
-<p>Время окончания: {{ event.end_time }}</p>
+<p>начало:{{ event.s_dt }}</p>
+<p>конец   :{{ event.e_dt }}</p>
 <p>Описание: {{ event.descript }}</p>
-<p>Категория: {{ event.cat }}</p>
+<p>Категория: {{ event.category }}</p>
 <div style="display: grid; grid-template-columns: 1fr 1fr auto;">
     <a href="/event/{{event.id}}/update/" class="button bg_green">Изменить</a>
     <a href="/event/{{event.id}}/delete/" class="button bg_red">Удалить</a>

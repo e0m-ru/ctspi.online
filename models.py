@@ -21,8 +21,8 @@ class Department(models.Model):
 
 class Event(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
-    start_time = models.DateField(blank=True, null=True)
-    end_time = models.DateField(blank=True, null=True)
+    s_dt = models.DateTimeField(blank=True, null=True)
+    e_dt = models.DateTimeField(blank=True, null=True)
     descript = models.TextField(blank=True, null=True)
     category = models.CharField(max_length=20, blank=True, null=True)
 

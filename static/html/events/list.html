@@ -10,7 +10,7 @@
 {% for e in events %}
 <div class="event-card">
     <div class="header">
-        <span class="date">{{e.start_time|date:"d M Y"}}</span>
+        <span class="date">{{e.s_dt|date:"d M Y"}}</span>
         <span class="category">{{e.cat}}</span>
     </div>
     <h2 class="title">{{ e.title }}</h2>

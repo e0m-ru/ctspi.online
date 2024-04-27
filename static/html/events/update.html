@@ -5,24 +5,19 @@
 {% block content %}
 {{ post.content|safe }}
 {{ post.description|safe }}
-    <h1>Обновление события</h1>
     <form method="post">
         {% csrf_token %}
-        <label for="title">Название:</label>
-        <input type="text" name="title" id="title" value="{{ event.title }}" required>
+        <input style="font-size: 1.5rem;" type="text" name="title" id="title" value="{{ event.title }}" required>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;">
+        <input type="datetime-local" name="s_dt" id="s_dt" value="{{ event.s_dt|date:'Y-m-d\TH:m' }}" required>
+        <div></div>
+        <div></div>
+        <input type="datetime-local" name="e_dt" id="e_dt" value="{{ event.e_dt|date:'Y-m-d\TH:m' }}" required>
+        </div>
+        <textarea name="descript" id="descript" rows="10" cols="72">{{ event.descript }}</textarea>
         <br>
-        <label for="start_time">Время начала:</label>
-        <input type="date" name="start_time" id="start_time" value="{{ event.start_time|date:'Y M D' }}" required>
+        <input type="text" name="cat" id="cat" value="{{ event.category }}" required>
         <br>
-        <label for="end_time">Время окончания:</label>
-        <input type="date" name="end_time" id="end_time" value="{{ event.end_time|date:'Y M D' }}" required>
-        <br>
-        <label for="descript">Описание:</label>
-        <textarea name="descript" id="descript" rows="10">{{ event.descript }}</textarea>
-        <br>
-        <label for="cat">Категория</label>
-        <input type="text" name="cat" id="cat" value="{{ event.cat }}" required>
-        <br>
-        <button type="submit">Обновить</button>
+        <button class="bg_main" type="submit">Обновить</button>
     </form>
 {% endblock %}
