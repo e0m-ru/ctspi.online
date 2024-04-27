@@ -29,3 +29,6 @@ class Event(models.Model):
     class Meta:
         managed = False
         db_table = 'events'
+
+class Tag(models.Model):
+    name = models.CharField(max_length=255, unique=True)

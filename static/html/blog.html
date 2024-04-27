@@ -16,7 +16,7 @@
         <span class="id">#{{e.id}}</span>
     </div>
     <a href="/event/{{e.id}}/">
-    <h2 class="title">{{ e.title }}</h2>
+    <h4 class="title">{{ e.title }}</h4>
     </a>
     <p class="body">{{ e.descript|truncatechars:256}}</p>
     <!-- <div class="footer">
@@ -29,7 +29,7 @@
 <div class="pagination">
     <span class="step-links">
         {% if events.has_previous %}
-        <a href="?page=1">&laquo;</a>
+        <a href="?page=1">&lt;&lt;</a>
         <a href="?page={{ events.previous_page_number }}">&lt;</a>
         {% endif %}
 
@@ -39,7 +39,7 @@
 
         {% if events.has_next %}
         <a href="?page={{ events.next_page_number }}">&gt</a>
-        <a href="?page={{ events.paginator.num_pages }}">&raquo;</a>
+        <a href="?page={{ events.paginator.num_pages }}">&gt&gt</a>
         {% endif %}
     </span>
 

@@ -2,11 +2,9 @@ from django.urls import re_path, path
 from ctspi import views
 
 urlpatterns = [
-    path('anons', views.anons),
-    path('write_anons', views.write_anons),
     re_path(r'departments/.*', views.departments),
     re_path(r'blog/.*', views.blog, name='event-list'),
-
+    path('search/', views.event_search, name='post_search'),
     # CRUD
     path('event/new/', views.EventCreateView.as_view(), name='event-create'),
     path('event/<int:pk>/', views.EventDetailView.as_view(), name='event-detail'),

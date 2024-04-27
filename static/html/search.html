@@ -1,0 +1,43 @@
+{% extends "header.html" %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block content %}
+
+{% if query %}
+<h1>Результаты поиска "{{ query }}"</h1>
+<h3>
+    {% with results.count as total_results %}
+    Найдено {{ total_results }} результатов
+    {% endwith %}
+</h3>
+{% for e in results %}
+<div class="event-card">
+    <div class="header">
+        <span class="category">{{e.category}}</span>
+        <span class="date">{{e.start_time|date:"d M Y"}}</span>
+        <span class="id">#{{e.id}}</span>
+    </div>
+    <a href="/event/{{e.id}}/">
+        <h4 class="title">{{ e.title }}</h4>
+    </a>
+    <p class="small">{{ e.descript|truncatechars:128}}</p>
+    <!-- <div class="footer">
+        <p>Подвал - заглушка</p>
+    </div> -->
+</div>
+
+{{ event.descript|truncatewords_html:12 }}
+
+{% empty %}
+<p>Нет результатов</p>
+{% endfor %}
+<p><a href="/search/">Искать ещё раз</a></p>
+{% else %}
+<h1>Поиск событий</h1>
+<form method="get">
+    {{ form.as_p }}
+    <input type="submit" value="Search">
+</form>
+{% endif %}
+{% endblock %}

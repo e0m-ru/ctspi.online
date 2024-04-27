@@ -1,11 +1,13 @@
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from .models import Event, Main_contents, Department
-from ctspi_config.settings import STATIC_ROOT, BASE_DIR
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.views import View
 from django.urls import reverse
+from ctspi.forms import SearchForm
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+
 
 def main(request):
     url_path = request.path
@@ -42,12 +44,13 @@ def anons(request):
 
 
 def write_anons(request):
-    with open(f'{BASE_DIR}/static/anons.csv', 'w', encoding='utf-8') as file:
+    with open(f'static/anons.csv', 'w', encoding='utf-8') as file:
         file.write(resp := str(request.body.decode('utf-8')))
     # Создаем свой кастомный ответ
     custom_response = HttpResponse(resp, content_type="text/plain")
     custom_response.status_code = 200
     return custom_response
+
 
 def blog(request):
     paginator = Paginator(Event.objects.all().order_by(
@@ -62,6 +65,7 @@ def blog(request):
 class EventListView(View):
     """Список событий.
     """
+
     def get(self, request):
         events = Event.objects.all()
         context = {
@@ -69,12 +73,13 @@ class EventListView(View):
         }
         return render(request, 'events/list.html', context)
 
+
 class EventCreateView(View):
     """Создание нового события.
     """
+
     def get(self, request):
         return render(request, 'events/create.html')
-
 
     def post(self, request):
         title = request.POST['title']
@@ -85,19 +90,21 @@ class EventCreateView(View):
 
         try:
             event = Event.objects.create(
-            title=title,
-            start_time=start_time,
-            end_time=end_time,
-            descript=descript,
-            cat=cat
+                title=title,
+                start_time=start_time,
+                end_time=end_time,
+                descript=descript,
+                cat=cat
             )
             return HttpResponseRedirect(reverse('event-detail', args=[event.id]))
         except ValueError:
             return render(request, 'events/create.html', {'error': "Некорректные данные."})
 
+
 class EventDetailView(View):
     """Детали события.
     """
+
     def get(self, request, pk):
         try:
             event = Event.objects.get(pk=pk)
@@ -105,18 +112,20 @@ class EventDetailView(View):
             raise Http404(
                 "Событие не найдено.")
         context = {
-                'event': event
-            }
+            'event': event
+        }
         return render(request, 'events/detail.html', context)
 
+
 class EventUpdateView(View):
-    """Обновление события.
+    """Updating the event.
     """
+
     def get(self, request, pk):
         try:
             event = Event.objects.get(pk=pk)
         except Event.DoesNotExist:
-            raise Http404("Событие не найдено.")
+            raise Http404(f"The event id:{pk} was not found.")
         return render(request, 'events/update.html', {'event': event})
 
     def post(self, request, pk):
@@ -134,9 +143,10 @@ class EventUpdateView(View):
         event.save()
         return HttpResponseRedirect(reverse('event-detail', args=[event.id]))
 
+
 class EventDeleteView(View):
-    """Удаление события.
-    """
+    """Removing the event."""
+
     def get(self, request, pk):
         event = Event.objects.get(pk=pk)
         context = {
@@ -148,3 +158,18 @@ class EventDeleteView(View):
         event = Event.objects.get(pk=pk)
         event.delete()
         return HttpResponseRedirect(reverse('event-list'))
+
+
+def event_search(request):
+    form = SearchForm()
+    query = None
+    results = []
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        search_vector = SearchVector('title', 'descript')
+        search_query = SearchQuery(query)
+        results = Event.objects.annotate(search=search_vector, rank=SearchRank(
+            search_vector, search_query)).filter(search=search_query).order_by('-rank')
+    return render(request, 'search.html', {'form': form, 'query': query, 'results': results})

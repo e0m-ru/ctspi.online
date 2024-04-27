@@ -1,6 +1,6 @@
 :root {
-    --base_color: #1b75bc;
-    --dark-blue: #072f4e;
+    --main-color: #1b75bc;
+    --dark-blue: #093a5f;
     --light-blue: #bbd0df;
     --white: #fefefe;
     --light: #ccc;
@@ -22,10 +22,21 @@ body {
     grid-template-rows: min-content auto min-content;
 }
 
+h1, h2, h3, h4, h6, h6 {
+    font-weight: 100;
+    color: var(--dark-blue);
+}
+
+h4 {
+    font-size: 1rem;
+    margin: 0;
+    margin-bottom: .5rem;
+}
+
 header,
 footer {
     color: var(--light-blue);
-    background-color: var(--base_color);
+    background-color: var(--main-color);
     /* position: sticky; */
 }
 
@@ -38,7 +49,7 @@ header {
 
 footer {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
     padding: 0 1rem;
 }
 
@@ -57,13 +68,12 @@ footer * {
 }
 
 .main-big-content {
-    height: 100%;
-    width: 100%;
+
 }
 
 
 .main {
-    /* min-height: 100vh; */
+    width: -webkit-fill-available;
 }
 
 @media only screen and (min-width: 1024px) {
@@ -81,6 +91,7 @@ header h1 {
     font-size: 1.5rem;
     padding: 0;
     margin: 0;
+    color: var(--white);
 }
 
 @media screen and (max-width: 900px) {
@@ -143,8 +154,21 @@ form {
 
 * {
     scrollbar-width: thin;
-    scrollbar-color: var(--dark-blue) var(--base_color);
+    scrollbar-color: var(--dark-blue) var(--main-color);
     overflow: auto;
     scrollbar-width: thin;
     scrollbar-color: hsl(0 0% 50%);
+}
+
+
+a {
+    text-decoration: none;
+    color: inherit;
+    color: var(--main-color);
+    transition: all .3s ease-in-out;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: var(--main-color);
 }

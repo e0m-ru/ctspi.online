@@ -11,7 +11,7 @@
     list-style-type: none;
     text-align: end;
     right: 0;
-    background-color: var(--base_color);
+    background-color: var(--main-color);
     z-index: 999;
 }
 

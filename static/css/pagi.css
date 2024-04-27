@@ -1,0 +1,33 @@
+.pagination {
+    text-align: center;
+}
+
+.pagination .step-links {}
+
+.pagination .current,
+.pagination a {
+    background-color: var(--main-color);
+    color: var(--light);
+    display: inline-block;
+    border-radius: .33rem;
+    overflow: hidden;
+    transition: all .33s ease-in-out;
+    -o-transition: all .33s ease-in-out;
+    text-decoration: none;
+    margin: auto;
+    text-align: center;
+    padding: 0.25rem .5rem;
+    margin: auto;
+    width: auto;
+    font-weight: 800;
+}
+
+.pagination .current {
+    background-color: var(--light-blue);
+    color: var(--mian-color);
+    font-weight: 400;
+}
+
+.pagination a:hover {
+    color: var(--white);
+}

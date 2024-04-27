@@ -1,14 +1,15 @@
 .event-card {
     border: 1px solid var(--light);
     border-radius: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 1rem;
     background-color: var(--white);
     padding: 1rem;
+    max-width: 100%;
 }
 
 .event-card>.header {
     background-color: inherit;
-    margin-bottom: 10px;
+    margin: 0;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
@@ -28,10 +29,8 @@
 .event-card>.header>.id {
     text-align: right;
 }
-a {
-    text-decoration: none;
-    color: inherit;
-}
-a:hover {
-    text-decoration: underline;
+
+.event-card .body {
+    margin: .5rem 0;
+    font-size: .75rem;
 }
