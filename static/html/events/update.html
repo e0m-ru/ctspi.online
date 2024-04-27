@@ -9,10 +9,10 @@
         {% csrf_token %}
         <input style="font-size: 1.5rem;" type="text" name="title" id="title" value="{{ event.title }}" required>
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;">
-        <input type="datetime-local" name="s_dt" id="s_dt" value="{{ event.s_dt|date:'Y-m-d\TH:m' }}" required>
+        <input type="datetime-local" name="s_dt" id="s_dt" value="{{ event.s_dt|date:'Y-m-d\TH:i' }}" required>
         <div></div>
         <div></div>
-        <input type="datetime-local" name="e_dt" id="e_dt" value="{{ event.e_dt|date:'Y-m-d\TH:m' }}" required>
+        <input type="datetime-local" name="e_dt" id="e_dt" value="{{ event.e_dt|date:'Y-m-d\TH:i' }}" required>
         </div>
         <textarea name="descript" id="descript" rows="10" cols="72">{{ event.descript }}</textarea>
         <br>
