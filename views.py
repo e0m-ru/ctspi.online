@@ -6,7 +6,8 @@ from django.core.paginator import Paginator
 from django.views import View
 from django.urls import reverse
 from ctspi.forms import SearchForm
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+# from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.contrib.postgres.search import TrigramSimilarity
 
 
 def main(request):
@@ -168,8 +169,8 @@ def event_search(request):
         form = SearchForm(request.GET)
     if form.is_valid():
         query = form.cleaned_data['query']
-        search_vector = SearchVector('title', 'descript')
-        search_query = SearchQuery(query)
-        results = Event.objects.annotate(search=search_vector, rank=SearchRank(
-            search_vector, search_query)).filter(search=search_query).order_by('-rank')
+        # search_vector = SearchVector('title', 'descript', config='russian')
+        # search_query = SearchQuery(query, config='russian')
+        results = Event.objects.annotate(similarity=TrigramSimilarity(
+            'title', query),).filter(similarity__gt=0.1).order_by('-similarity')
     return render(request, 'search.html', {'form': form, 'query': query, 'results': results})
