@@ -1,5 +1,7 @@
+from turtle import position
 from django.db import models
 from django.contrib.auth.models import User
+
 
 class Main_contents(models.Model):
     name = models.CharField(max_length=16, unique=True)
@@ -25,10 +27,19 @@ class Event(models.Model):
     e_dt = models.DateTimeField(blank=True, null=True)
     descript = models.TextField(blank=True, null=True)
     category = models.CharField(max_length=20, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'events'
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Tag(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
+
+class Headliner(models.Model):
+    name = models.CharField(max_length=255)
+    surname = models.CharField(max_length=255)
+    job = models.ForeignKey("Position",
+                            on_delete=models.CASCADE,
+                            )
+
+
+class Position(models.Model):
+    name = models.CharField(max_length=245)
