@@ -15,11 +15,12 @@ class EventCreateView(View):
         return render(request, 'events/create.html')
 
     def post(self, request):
+        author_id = request.user.id
         title = request.POST['title']
         s_dt = request.POST['s_dt']
         e_dt = request.POST['e_dt']
         descript = request.POST['descript']
-        cat = request.POST['cat']
+        # cat = request.POST['cat']
 
         try:
             event = Event.objects.create(
@@ -27,7 +28,7 @@ class EventCreateView(View):
                 s_dt=s_dt,
                 e_dt=e_dt,
                 descript=descript,
-                cat=cat
+                author_id=1,
             )
             return HttpResponseRedirect(reverse('event-detail', args=[event.id]))
         except ValueError:

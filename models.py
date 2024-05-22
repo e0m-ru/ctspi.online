@@ -27,7 +27,7 @@ class Event(models.Model):
     e_dt = models.DateTimeField(blank=True, null=True)
     descript = models.TextField(blank=True, null=True)
     category = models.CharField(max_length=20, blank=True, null=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Tag(models.Model):
     name = models.CharField(max_length=255, unique=True)
