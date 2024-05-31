@@ -5,19 +5,18 @@
 {% block content %}
 {{ post.content|safe }}
 {{ post.description|safe }}
-
-<h1>Детали события</h1>
-<p>Название: {{ event.title }}</p>
-<p>начало:{{ event.s_dt }}</p>
-<p>конец   :{{ event.e_dt }}</p>
-<p>Описание: {{ event.descript }}</p>
-<p>Категория: {{ event.category }}</p>
-<div style="display: grid; grid-template-columns: 1fr 1fr auto;">
-    <a href="/event/{{event.id}}/update/" class="button bg_green">Изменить</a>
-    <a href="/event/{{event.id}}/delete/" class="button bg_red">Удалить</a>
-
-
-
+<div class="form_grid">
+    <h1 id="title">{{ event.title }}</h1>
+    <time>c {{ event.s_dt | date:'y.m.d H:i' }}</time>
+    <time>по {{ event.e_dt | date:'y.m.d H:i' }}</time>
+    <span id="cat">{{ event.category }}</span>
+    <p id="descript">{{ event.descript }}</p>
+    <span>{{ event.author }}</span>
+    <span>{{ event.author.email }}</span>
+    <span>{{ event.author.is_superuser }}</span>
+    {% if user.is_authenticated %}
+    <a href="/event/{{event.id}}/update/" class="btn_green btn center_text">Изменить</a>
+    <a href="/event/{{event.id}}/delete/" class="btn_red btn center_text">Удалить</a>
+    {% endif %}
 </div>
-
 {% endblock %}

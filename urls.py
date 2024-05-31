@@ -1,7 +1,8 @@
-from django.urls import re_path, path
+from django.urls import re_path, path, include
 from ctspi import views
 
 urlpatterns = [
+    path("accounts/", include("django.contrib.auth.urls")),
     re_path(r'departments/.*', views.departments),
     re_path(r'blog/.*', views.blog, name='event-list'),
     path('search/', views.event_search, name='post_search'),

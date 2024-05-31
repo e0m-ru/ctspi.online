@@ -11,9 +11,9 @@
 
 <div class="event-card">
     <div class="header">
+        <time class="date">{{e.s_dt|date:"d.m.y"}}</time>
+        <span class="id">{{e.id}}</span>
         <span class="category">{{e.category}}</span>
-        <span class="date">{{e.s_dt|date:"d M Y"}}</span>
-        <span class="id">#{{e.id}}</span>
     </div>
     <a href="/event/{{e.id}}/">
     <h4 class="title">{{ e.title }}</h4>

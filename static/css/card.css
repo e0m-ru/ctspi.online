@@ -9,7 +9,7 @@
 
 .event-card>.header {
     background-color: inherit;
-    margin: 0;
+    margin-bottom: .5rem;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 }
@@ -18,16 +18,16 @@
 .event-card>.header>.category,
 .event-card>.header>.date {
     font-size: 12px;
-    color: var(--light);
+    color: var(--blue);
 }
 .event-card>.header>.category {
-    text-align: left;
+    text-align: right;
 }
 .event-card>.header>.date {
-    text-align: center;
+    text-align: left;
 }
 .event-card>.header>.id {
-    text-align: right;
+    text-align: center;
 }
 
 .event-card .body {

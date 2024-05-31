@@ -7,7 +7,7 @@
 {{ post.description|safe }}
 {% load static %}
 
-<form method="post">
+<form method="post" class="form_grid">
     {% csrf_token %}
     <input type="text" name="title" id="title" required placeholder="заголовок мероприятия">
     <input type="datetime-local" name="s_dt" id="s_dt" required >
@@ -16,8 +16,6 @@
     <input type="hidden" id="timezone" name="timezone" value="+03:00" />
     <textarea name="descript" id="descript" cols="30" rows="3" placeholder="краткое описание"></textarea>
     <button type="submit" class="btn_green">создать</button>
-    <span></span>
-
     <button type="submit" class="btn_red">отменить</button>
 </form>
 <script src="{% static 'js/form.js' %}"></script>

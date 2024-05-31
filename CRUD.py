@@ -1,10 +1,15 @@
 # CRUD classes as vievws.
 
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
 from django.views import View
 from django.shortcuts import render
 from .models import Event
 from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
 
 
 class EventCreateView(View):
@@ -34,6 +39,9 @@ class EventCreateView(View):
         except ValueError:
             return render(request, 'events/create.html', {'error': "Некорректные данные."})
 
+class EventCreateView(PermissionRequiredMixin, EventCreateView):
+    permission_required = ["ctspi.add_event"]
+
 
 class EventDetailView(View):
     """Детали события.
@@ -51,10 +59,12 @@ class EventDetailView(View):
         return render(request, 'events/detail.html', context)
 
 
+class EventDetailView(PermissionRequiredMixin, EventDetailView):
+    permission_required = ["ctspi.view_event"]
+
 class EventUpdateView(View):
     """Updating the event.
     """
-
     def get(self, request, pk):
         try:
             event = Event.objects.get(pk=pk)
@@ -73,6 +83,9 @@ class EventUpdateView(View):
         return HttpResponseRedirect(reverse('event-detail', args=[event.id]))
 
 
+class EventUpdateView(PermissionRequiredMixin, EventUpdateView):
+    permission_required = ["ctspi.change_event"]
+
 class EventDeleteView(View):
     """Removing the event."""
 
@@ -87,3 +100,7 @@ class EventDeleteView(View):
         event = Event.objects.get(pk=pk)
         event.delete()
         return HttpResponseRedirect(reverse('event-list'))
+
+
+class EventDeleteView(PermissionRequiredMixin, EventDeleteView):
+    permission_required = ["ctspi.delete_event"]

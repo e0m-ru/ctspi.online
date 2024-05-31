@@ -27,3 +27,11 @@ body {
     background-color: var(--blue-dark);
 }
 
+/* Scroll style */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--blue) var(--blue-dark) ;
+    /* overflow: auto; */
+    scrollbar-width: thin;
+    scrollbar-color: hsl(0 0% 50%);
+}

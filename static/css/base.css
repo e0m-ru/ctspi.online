@@ -2,7 +2,6 @@ html,
 body {
     font-family: "Roboto";
     font-optical-sizing: auto;
-    /* font-weight: 100; */
     padding: 0px;
     margin: 0px;
 }
@@ -112,15 +111,6 @@ footer * {
 }
 
 
-/* Scroll style */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--blue-dark) var(--blue);
-    overflow: auto;
-    scrollbar-width: thin;
-    scrollbar-color: hsl(0 0% 50%);
-}
-
 /* Link */
 a {
     text-decoration: none;
@@ -139,3 +129,10 @@ a:hover {
     text-align: center;
 }
 
+time {
+    
+}
+
+span {
+
+}
