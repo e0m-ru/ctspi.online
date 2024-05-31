@@ -1,0 +1,29 @@
+:root {
+    --r: 0;
+    --g: 103;
+    --b: 206;
+    --s: 66%;
+    --l: 40%;
+    --white: hsl(var(--b), 0%, 98%);
+    --light: hsl(var(--b), 25%, 90%);
+    --red:   hsl(var(--r), var(--s), var(--l));
+    --green: hsl(var(--g), var(--s), var(--l));
+    --blue:  hsl(var(--b), var(--s), var(--l));
+    --black: hsl(var(--b), var(--s),  5%);
+    
+    --red-dark:   hsl(var(--r),var(--s),calc(var(--l)*.5));
+    --green-dark: hsl(var(--g),var(--s),calc(var(--l)*.5));
+    --blue-dark:  hsl(var(--b),var(--s),calc(var(--l)*.5));
+}
+
+
+::placeholder {
+    color: var(--light);
+    font-size:xx-small;
+    font-family: "Roboto Mono";
+}
+
+body {
+    background-color: var(--blue-dark);
+}
+
