@@ -2,45 +2,43 @@
 {% block header %}
 
 <a class="logo" id="logo" href="/"><img src="/static/svg/CTSPI-01.svg"></a>
-<!-- <h5 style="display: inline-block; margin: auto; vertical-align:text-top;">Федеральное государственное унитарное
-    предприятие «Центр
-    технических систем
-    передачи
-    информации при Министерстве
-    иностранных дел Российской Федерации»</h5> -->
-<input id="toggle" type="checkbox"></input>
-<h1>ФГУП «ЦТСПИ при МИД России»</h1>
-<label id='menu_trigger' for="toggle" class="hamburger">
-    <div class="top-bun"></div>
-    <div class="meat"></div>
-    <div class="bottom-bun"></div>
-</label>
 
-<ul id='menu' class="menu">
-    {% for el in items %}
-    <li>
-        <a href="/{{ el.name }}">{{ el.title }}</a>
-    </li>
-    {% endfor %}
-    <li>
-        <a href="/anons">анонс</a>
-    </li>
-    <li>
-        <a href="/blog/">блог</a>
-    </li>
-    <li>
-        <a href="/search/">поиск</a>
-    </li>
-</ul>
-<script>
-    var link = document.querySelector('#menu_trigger');
-    var elem = document.querySelector('#menu');
-
-    link.addEventListener('click', function () {
-        elem.classList.toggle('show')
-    });
+    
+    <h1>ФГУП «ЦТСПИ при МИД России»</h1>
+<!-- menu icon -->
+<div id="menu-icon">
+    <input id="toggle" type="checkbox"></input>
+    <label id='menu_trigger' for="toggle" class="hamburger">
+        <div class="top-bun"></div>
+        <div class="meat"></div>
+        <div class="bottom-bun"></div>
+    </label>
 
 
-</script>
+    <ul id='menu' class="menu">
+        {% for el in items %}
+        <li>
+            <a href="/{{ el.name }}">{{ el.title }}</a>
+        </li>
+        {% endfor %}
 
-{% endblock %}
+        <li>
+            <a href="/blog/">блог</a>
+        </li>
+        <li>
+            <a href="/search/">поиск</a>
+        </li>
+    </ul>
+
+    <script>
+        var link = document.querySelector('#menu_trigger');
+        var elem = document.querySelector('#menu');
+
+        link.addEventListener('click', function () {
+            elem.classList.toggle('show')
+        });
+
+
+    </script>
+
+    {% endblock %}

@@ -3,7 +3,17 @@
 {% block title %}{{post.title}}{% endblock %}
 
 {% block content %}
+
+<h1>{{ post }}</h1>
 {{ post.content|safe }}
 {{ post.description|safe }}
-
+{%if depts %}
+<ul>
+{% for el in depts %}
+    <li>
+        <a href="/departments/{{ el.name }}">{{ el.title }}</a>
+    </li>
+{% endfor %}
+</ul>
+{% endif %}
 {% endblock %}

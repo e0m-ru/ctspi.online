@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 {% block footer %}
-<div></div>
-<h5>ФГУП "ЦТСПИ при МИД РОССИИ"</h5>
-<!-- {% if user.is_authenticated %}
-<h5><a href="/logout/">выход</a></h5>
-{% else %}
-<h5><a href="/login/">вход</a></h5>
-{% endif %} -->
 
+<h5>ФГУП "ЦТСПИ при МИД РОССИИ"</h5>
+{% if user.is_authenticated %}
+<a href="/logout/">выход</a>
+{% else %}
+<a href="/login/">вход</a>
+{% endif %}
+<!-- search -->
+<form class="search-box" id="searchForm" method="get" action="/search/">
+    {% csrf_token %}
+    <input id="searchInput" type="text" name="query" class="input-search" placeholder="поисковый запрос">
+</form>
 {% endblock %}

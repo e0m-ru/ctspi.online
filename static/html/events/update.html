@@ -13,5 +13,8 @@
     <textarea name="descript" id="descript" rows="10" cols="72">{{ event.descript }}</textarea>
     <input type="text" name="category" id="category" value="{{ event.category }}" required>
     <button class="btn_green" type="submit">Обновить</button>
+    <a href="/event/{{event.id}}/delete/" class="btn_red btn center_text">Удалить</a>
+    <a href="/" class="btn_blue btn center_text">Отменить</a>
+
 </form>
 {% endblock %}

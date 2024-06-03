@@ -33,11 +33,14 @@
 <p>Нет результатов</p>
 {% endfor %}
 <p><a href="/search/">Искать ещё раз</a></p>
+
 {% else %}
+
 <h1>Поиск событий</h1>
 <form method="get">
     {{ form.as_p }}
-    <input type="submit" value="Search">
+    <input type="submit" value="Search" placeholder="поисковый запрос">
 </form>
 {% endif %}
+
 {% endblock %}

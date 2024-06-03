@@ -45,6 +45,10 @@ button {
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
     border: none;
+    border-radius: .333rem;
+    padding: .5rem 1rem;
+    border: 2px solid var(--light);
+    outline: none;
 }
 
 .button:hover,
@@ -70,6 +74,12 @@ button:focus {
 .btn_green:hover {
     background-color: var(--green);
 }
+.btn_blue {
+    background-color: var(--blue-dark);
+}
+.btn_blue:hover {
+    background-color: var(--blue);
+}
 
 a.btn {
     padding: .5rem 1rem;
@@ -77,4 +87,35 @@ a.btn {
     text-decoration: none;
     color: var(--light);
     width: fit-content;
+    border-radius: .333rem;
+        padding: .5rem 1rem;
+        border: 2px solid var(--light);
+        outline: none;
+        width: auto;
+}
+
+
+
+/* search box */
+
+.search-box {
+
+}
+
+.input-search {
+    margin: auto;
+    padding: .5rem 1rem;
+    width: 1rem;
+    transition: all .5s ease-in-out;
+}
+
+.btn-search:focus~.input-search {
+    width: 300px;
+    transition: all 500ms ease-out;
+}
+
+.input-search:hover,
+.input-search:focus {
+    width: 300px;
+    transition: all 500ms ease-in-out;
 }

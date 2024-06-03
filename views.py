@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from .models import Event, Main_contents, Department
-from django.core.paginator import Paginator
 from .forms import SearchForm
 from django.contrib.postgres.search import TrigramSimilarity
 from .CRUD import *
-# index page
+
+
 def main(request):
+    # index page
     url_path = request.path
     context = {'items': Main_contents.objects.all()}
     if url_path == '/':
@@ -15,7 +16,6 @@ def main(request):
     try:
         post = Main_contents.objects.get(name=url_path[1:])
     except:
-        pass
         return ctspi_404(request)
     context.update({'post': post})
     return render(request, 'index.html', context)
@@ -33,15 +33,6 @@ def ctspi_404(request):
     return render(request, '404.html', status=404, context={'name': request.path})
 
 
-def blog(request):
-    paginator = Paginator(Event.objects.all().order_by(
-        '-s_dt'), 5)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-    context = {'events': page_obj}
-    return render(request, 'blog.html', context=context)
-
-
 def event_search(request):
     form = SearchForm()
     query = None
@@ -55,3 +46,6 @@ def event_search(request):
         results = Event.objects.annotate(similarity=TrigramSimilarity(
             'title', query),).filter(similarity__gt=0.1).order_by('-similarity')
     return render(request, 'search.html', {'form': form, 'query': query, 'results': results})
+
+def player(request):
+    return render(request, 'player.html')

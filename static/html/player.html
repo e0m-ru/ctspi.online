@@ -1,0 +1,2610 @@
+{% extends "header.html" %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block content %}
+<script type="text/javascript" src="//playercdn.cdnvideo.ru/aloha/clappr/clappr8.min.js"></script>
+<script type="text/javascript" src="//playercdn.cdnvideo.ru/aloha/clappr/level-selector.min.js">
+</script>
+<style type="text/css">
+    no-outline,
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] button,
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] li a {
+        outline: none;
+    }
+
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] {
+        height: 100%;
+        float: right;
+        position: relative;
+        font-size: 10px;
+    }
+
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] button {
+        height: 100%;
+        background-color: transparent;
+        color: #fff;
+        font-family: Roboto, "Open Sans", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        border: none;
+        padding: 0;
+        margin: 0 6px;
+        cursor: pointer;
+        font-size: 100%;
+        line-height: 0;
+    }
+
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] button.text {
+        width: unset;
+    }
+
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] button:hover {
+        color: #c9c9c9;
+    }
+
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] button.changing {
+        -webkit-animation: pulse 0.5s infinite alternate;
+        animation: pulse 0.5s infinite alternate;
+    }
+
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector]:not(.visible) ul.ui-plugin-selector {
+        display: none;
+    }
+
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] ul.ui-plugin-selector {
+        list-style-type: none;
+        position: absolute;
+        bottom: 35px;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        left: 50%;
+        border: 1px solid black;
+        border-radius: 5px;
+        background-color: rgba(0, 0, 0, 0.533);
+        text-shadow: black 2px 2px 2px;
+    }
+
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] li {
+        font-size: 100%;
+    }
+
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] li[data-title] {
+        padding: 5px 10px;
+        color: white;
+        border-bottom: 1px solid #454d5e;
+    }
+
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] li a {
+        color: white;
+        display: block;
+        text-decoration: none;
+        padding: 5px 10px;
+    }
+
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] li a:hover {
+        background-color: rgba(0, 0, 0, 0.6);
+        color: #cccccc;
+    }
+
+    .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] li.current a {
+        color: #888888;
+    }
+
+    @-webkit-keyframes pulse {
+        0% {
+            color: #ffffff;
+        }
+
+        50% {
+            color: #aaaaaa;
+        }
+
+        100% {
+            color: #555555;
+        }
+    }
+
+    @keyframes pulse {
+        0% {
+            color: #ffffff;
+        }
+
+        50% {
+            color: #aaaaaa;
+        }
+
+        100% {
+            color: #555555;
+        }
+    }
+</style>
+<script type="text/javascript" src="//playercdn.cdnvideo.ru/aloha/clappr/clappr-styling.min.js"></script>
+<style type="text/css">
+    [data-player] .cloak {
+        display: none;
+        position: relative;
+        float: right;
+        height: 100%;
+    }
+
+    [data-player] .cloak.active {
+        display: block;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls].cloak-open {
+        left: -100%;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls].cloak-open .bar-container[data-seekbar] .bar-scrubber[data-seekbar] {
+        visibility: hidden;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls].cloak-open .cloak-container {
+        visibility: visible;
+    }
+
+    [data-player] .cloak-container {
+        display: -ms-flexbox;
+        display: flex;
+        visibility: hidden;
+        position: absolute;
+        z-index: 99;
+        left: 150%;
+        transform: translateX(-50%);
+        height: inherit;
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
+        width: fit-content;
+        max-width: calc(100% - 50px);
+    }
+
+    [data-player] .cloak-container .close-button {
+        position: absolute;
+        left: -25px;
+        top: -15px;
+        height: 20px;
+        width: 20px;
+        background-color: red;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    [data-player] .cloak-container .close-button div {
+        height: 3px;
+        width: 80%;
+        background-color: white;
+        border-radius: inherit;
+    }
+
+    [data-player] .cloak-container .close-button div:nth-child(1) {
+        transform: translate(2px, 9px) rotateZ(-45deg);
+    }
+
+    [data-player] .cloak-container .close-button div:nth-child(2) {
+        transform: translate(2px, 6px) rotateZ(45deg);
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .seek-buttons-container {
+        display: none;
+        height: 100%;
+        float: left;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .seek-buttons-container.enabled {
+        display: block;
+    }
+
+    [data-player] .media-control[data-media-control] .seek-button.seek-touch {
+        display: block;
+        position: absolute;
+        width: 30%;
+        top: 20%;
+        bottom: 20%;
+        background: none;
+        padding: 0;
+        border: none;
+        outline: none;
+        pointer-events: auto;
+    }
+
+    [data-player] .media-control[data-media-control] .seek-button.seek-touch.animate .seek-button-text {
+        -webkit-animation-name: opacity-animation;
+        animation-name: opacity-animation;
+        -webkit-animation-duration: 0.5s;
+        animation-duration: 0.5s;
+        -webkit-animation-timing-function: ease;
+        animation-timing-function: ease;
+    }
+
+    [data-player] .media-control[data-media-control] .seek-button.seek-touch .seek-button-text {
+        color: white;
+        font-size: 2em;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: #0005;
+        opacity: 0;
+    }
+
+    [data-player] .media-control[data-media-control] .seek-button.seek-touch[data-seek="ff"] {
+        right: 5%;
+    }
+
+    [data-player] .media-control[data-media-control] .seek-button.seek-touch[data-seek="fr"] {
+        left: 5%;
+    }
+
+    @-webkit-keyframes fast_left_to_right {
+        0% {
+            left: -30px;
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            left: calc(100% - 30px);
+            opacity: 0;
+        }
+    }
+
+    @keyframes fast_left_to_right {
+        0% {
+            left: -30px;
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            left: calc(100% - 30px);
+            opacity: 0;
+        }
+    }
+
+    @-webkit-keyframes fast_right_to_left {
+        0% {
+            right: -30px;
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            right: calc(100% - 30px);
+            opacity: 0;
+        }
+    }
+
+    @keyframes fast_right_to_left {
+        0% {
+            right: -30px;
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            right: calc(100% - 30px);
+            opacity: 0;
+        }
+    }
+
+    @-webkit-keyframes opacity-animation {
+        0% {
+            opacity: 100%;
+        }
+
+        80% {
+            opacity: 100%;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @keyframes opacity-animation {
+        0% {
+            opacity: 100%;
+        }
+
+        80% {
+            opacity: 100%;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    [data-player] .media-control[data-media-control].media-control-hide .big-button {
+        display: none;
+    }
+
+    [data-player] .media-control[data-media-control] .big-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 15%;
+        transform: translateY(-50%) translateX(-50%);
+    }
+
+    [data-player] .media-control[data-media-control] .big-button button {
+        width: 100%;
+        background-color: transparent;
+        border: 0;
+        pointer-events: auto;
+        outline: none;
+    }
+
+    [data-player] .media-control[data-media-control] .big-button button.media-control-button.media-control-icon {
+        padding: 0;
+    }
+
+    [data-player] .media-control[data-media-control] .big-button button svg {
+        width: 100%;
+        height: unset;
+    }
+
+    [data-player] .media-control[data-media-control] .big-button button svg path {
+        fill: white;
+    }
+
+    [data-player] .media-control[data-media-control].big .cc-controls[data-cc-controls] {
+        font-size: 16px;
+    }
+
+    [data-player] .media-control[data-media-control].big .cc-controls[data-cc-controls] ul {
+        bottom: 60px;
+    }
+
+    [data-player] .cc-controls[data-cc-controls] {
+        height: 100%;
+        font-size: 10px;
+    }
+
+    [data-player] .cc-controls[data-cc-controls] .cc-button {
+        padding: unset !important;
+    }
+
+    [data-player] .cc-controls[data-cc-controls] ul {
+        bottom: 35px;
+        transform: translateX(-50%);
+        left: 50%;
+        border: 1px solid black;
+        border-radius: 5px;
+        background-color: rgba(0, 0, 0, 0.533);
+        text-shadow: black 2px 2px 2px;
+    }
+
+    [data-player] .cc-controls[data-cc-controls] li {
+        font-size: 100%;
+    }
+
+    [data-player] .cc-controls[data-cc-controls] a {
+        color: white;
+        padding: 5px 10px;
+    }
+
+    [data-player] .cc-controls[data-cc-controls] a:hover {
+        background-color: rgba(0, 0, 0, 0.6);
+        color: #cccccc;
+    }
+
+    [data-player] .cc-controls[data-cc-controls] .current a {
+        color: #888888;
+    }
+
+    [data-player] .media-control[data-media-control].big .media-control-layer[data-controls] .drawer-container[data-volume] .drawer-icon-container[data-volume] .media-control-icon[data-volume] {
+        width: 40px;
+    }
+
+    [data-player] .media-control[data-media-control].big .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] {
+        height: 30px;
+        width: 80px;
+        margin-left: 5px;
+    }
+
+    [data-player] .media-control[data-media-control].big .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] .segmented-bar-element {
+        width: 8px;
+    }
+
+    [data-player] .media-control[data-media-control].small .media-control-layer[data-controls] .drawer-container[data-volume] .drawer-icon-container[data-volume] .media-control-icon[data-volume] {
+        width: -webkit-fit-content;
+        width: -moz-fit-content;
+        width: fit-content;
+    }
+
+    [data-player] .media-control[data-media-control].small .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] {
+        height: 100%;
+        padding: 2px 0;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] {
+        height: 100%;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .drawer-icon-container[data-volume] {
+        height: 100%;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .drawer-icon-container[data-volume] .media-control-icon[data-volume] {
+        height: 100%;
+        width: 24px;
+        margin-right: 6px;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .drawer-icon-container[data-volume] .media-control-icon[data-volume] svg {
+        position: unset;
+        margin: unset;
+        width: unset;
+        height: 100%;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume],
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume].volume-bar-hide {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] .segmented-bar-element,
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume].volume-bar-hide .segmented-bar-element {
+        height: 100%;
+    }
+
+    [data-player] .media-control[data-media-control].big .media-control-layer[data-controls] .media-control-left-panel[data-media-control] {
+        margin-right: 30px;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .media-control-center-panel[data-media-control] {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 110%;
+        height: unset;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .media-control-left-panel[data-media-control],
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .media-control-right-panel[data-media-control] {
+        position: static;
+        -ms-flex-negative: 1;
+        flex-shrink: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+    }
+
+    [data-player] .media-control[data-media-control].big .media-control-layer[data-controls] .media-control-indicator {
+        font-size: 20px;
+        line-height: 20px;
+    }
+
+    [data-player] .media-control[data-media-control].small .media-control-layer[data-controls] .media-control-indicator {
+        font-size: 7px;
+        line-height: 12px;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .media-control-indicator[data-position] {
+        left: 5px;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .media-control-indicator[data-duration] {
+        right: 5px;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .media-control-indicator[data-position],
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .media-control-indicator[data-duration] {
+        display: block;
+        position: absolute;
+        bottom: 100%;
+        color: #ffffff;
+        text-shadow: black 0px 0px 2px;
+        font-size: 12px;
+        line-height: 12px;
+        margin: 0;
+        pointer-events: none;
+        opacity: .5;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .media-control-indicator[data-position]::before,
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .media-control-indicator[data-duration]::before {
+        content: none;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-button.media-control-icon[data-hd-indicator] {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        background-color: transparent;
+        border: none;
+        padding: unset;
+        opacity: .5;
+        transition: opacity ease .5;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-button.media-control-icon[data-hd-indicator].enabled {
+        opacity: .75;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-button.media-control-icon[data-hd-indicator] path {
+        fill: white;
+    }
+
+    [data-player] .media-control[data-media-control].media-control-hide .media-control-button.media-control-icon[data-hd-indicator] {
+        opacity: 0;
+    }
+
+    [data-player] .media-control[data-media-control].big.media-control-hide .media-control-layer[data-controls] {
+        bottom: -92px;
+    }
+
+    [data-player] .media-control[data-media-control].big .media-control-layer[data-controls] {
+        height: 35px;
+    }
+
+    [data-player] .media-control[data-media-control].big .media-control-layer[data-controls] .media-control-button {
+        margin: 0 5px;
+    }
+
+    [data-player] .media-control[data-media-control].big .media-control-layer[data-controls] .bar-container[data-seekbar] {
+        height: 25px;
+    }
+
+    [data-player] .media-control[data-media-control].big .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-background[data-seekbar] {
+        height: 5px;
+        top: 10px;
+    }
+
+    [data-player] .media-control[data-media-control].big .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-scrubber[data-seekbar] {
+        top: 2px;
+        width: 21px;
+        height: 21px;
+    }
+
+    [data-player] .media-control[data-media-control].big .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-scrubber-icon[data-seekbar] {
+        left: 7px;
+        top: 7px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        box-shadow: 0 0 0px 10px rgba(255, 255, 255, 0.2);
+    }
+
+    [data-player] .media-control[data-media-control].big .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-hover[data-seekbar] {
+        top: -3px;
+        height: 11px;
+    }
+
+    [data-player] .media-control[data-media-control].big .seek-time[data-seek-time] {
+        bottom: 67px;
+    }
+
+    [data-player] .media-control[data-media-control].small .media-control-layer[data-controls] {
+        height: 12px;
+    }
+
+    [data-player] .media-control[data-media-control].small .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-scrubber-icon[data-seekbar] {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+    }
+
+    [data-player] .media-control[data-media-control].media-control-hide .media-control-layer[data-controls] {
+        bottom: -70px;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        height: 24px;
+        left: 0;
+        transition-property: all;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls].opaque-icons .media-control-button.media-control-icon,
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls].opaque-icons .drawer-container[data-volume] .drawer-icon-container[data-volume] .drawer-icon[data-volume],
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls].opaque-icons .drawer-container[data-volume] .bar-container[data-volume] .segmented-bar-element[data-volume] {
+        opacity: 0.999;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .media-control-button {
+        width: unset;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .media-control-button svg {
+        height: 100%;
+        width: unset;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar] {
+        display: block;
+        position: unset;
+        height: 21px;
+        overflow: hidden;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-background[data-seekbar] {
+        top: 10px;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-scrubber[data-seekbar] {
+        width: 21px;
+        height: 21px;
+        top: 0;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-scrubber[data-seekbar] .bar-scrubber-icon[data-seekbar] {
+        left: 7px;
+        top: 7px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: #fff;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar]:hover .bar-hover[data-seekbar]:not(.visible) {
+        opacity: 0;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .bar-hover[data-seekbar].visible {
+        opacity: 1;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] button.text {
+        width: -webkit-max-content;
+        width: -moz-max-content;
+        width: max-content;
+    }
+
+    [data-player] .media-control[data-media-control].big .ui-plugin {
+        font-size: 20px;
+    }
+
+    [data-player] .media-control[data-media-control].big .ui-plugin .ui-plugin-selector,
+    [data-player] .media-control[data-media-control].big .level_selector[data-level-selector] ul {
+        bottom: 50px;
+    }
+
+    [data-player] .media-control[data-media-control].small .ui-plugin {
+        font-size: 7px;
+    }
+
+    [data-player] .media-control[data-media-control].small .ui-plugin .ui-plugin-selector {
+        bottom: 15px;
+    }
+
+    [data-player] .media-control[data-media-control].big .dvr-controls[data-dvr-controls] {
+        font-size: 20px;
+    }
+
+    [data-player] .media-control[data-media-control].big .dvr-controls[data-dvr-controls] .live-info:before,
+    [data-player] .media-control[data-media-control].big .dvr-controls[data-dvr-controls] button.live-button:before {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        margin-right: 6px;
+    }
+
+    [data-player] .media-control[data-media-control].small .dvr-controls[data-dvr-controls] {
+        font-size: 7px;
+    }
+
+    [data-player] .media-control[data-media-control].small .dvr-controls[data-dvr-controls] .live-info:before,
+    [data-player] .media-control[data-media-control].small .dvr-controls[data-dvr-controls] button.live-button:before {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        margin-right: 3px;
+    }
+
+    [data-player] .media-control[data-media-control] .dvr-controls[data-dvr-controls] {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-align: center;
+        align-items: center;
+        height: 100%;
+        line-height: unset;
+    }
+
+    [data-player] .media-control[data-media-control] .dvr-controls[data-dvr-controls] button.live-button {
+        font-size: 100%;
+        height: 100%;
+    }
+
+    [data-player] {
+        --container-bg: black;
+    }
+
+    [data-player] .container[data-container] {
+        background-color: var(--container-bg);
+    }
+</style>
+<script type="text/javascript" src="//playercdn.cdnvideo.ru/aloha/clappr/stream-selector.min.js"></script>
+<style type="text/css">
+    no-outline,
+    .stream-selector[data-stream-selector] button,
+    .stream-selector[data-stream-selector] a,
+    .stream-selector[data-stream-selector].fullsize button,
+    .stream-selector[data-stream-selector].fullsize a {
+        outline: none;
+    }
+
+    .stream-selector[data-stream-selector] {
+        height: 100%;
+        position: relative;
+        font-size: 10px;
+    }
+
+    .stream-selector[data-stream-selector] button {
+        background-color: transparent;
+        color: #fff;
+        font-family: Roboto, "Open Sans", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        border: none;
+        font-size: 100%;
+        line-height: 0;
+        padding: 0;
+        margin: 0 6px;
+        cursor: pointer;
+    }
+
+    .stream-selector[data-stream-selector] button:hover {
+        color: #c9c9c9;
+    }
+
+    .stream-selector[data-stream-selector] button svg {
+        height: 100%;
+    }
+
+    .stream-selector[data-stream-selector] [data-playlist] {
+        position: absolute;
+        bottom: 35px;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        overflow: hidden;
+        text-shadow: black 2px 2px 2px;
+    }
+
+    .stream-selector[data-stream-selector] [data-playlist].top [data-stream-selector-sweep][data-sweep="up"] {
+        display: none;
+    }
+
+    .stream-selector[data-stream-selector] [data-playlist].bottom [data-stream-selector-sweep][data-sweep="down"] {
+        display: none;
+    }
+
+    .stream-selector[data-stream-selector] [data-title] {
+        -ms-flex-positive: 0;
+        flex-grow: 0;
+        color: white;
+        padding: 0.5em;
+        border-bottom: 1px solid #454d5e;
+        background-color: rgba(0, 0, 0, 0.533);
+    }
+
+    .stream-selector[data-stream-selector] .list-container {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stream-selector[data-stream-selector] button[data-stream-selector-sweep] {
+        position: absolute;
+        z-index: 9;
+        margin: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.604);
+    }
+
+    .stream-selector[data-stream-selector] button[data-stream-selector-sweep][data-sweep="up"] {
+        top: 0;
+        background: black;
+        background: linear-gradient(180deg, black 0%, rgba(0, 0, 0, 0.3) 100%);
+    }
+
+    .stream-selector[data-stream-selector] button[data-stream-selector-sweep][data-sweep="down"] {
+        bottom: 0;
+        background: black;
+        background: linear-gradient(0deg, black 0%, rgba(0, 0, 0, 0.3) 100%);
+    }
+
+    .stream-selector[data-stream-selector] button[data-stream-selector-sweep]:hover,
+    .stream-selector[data-stream-selector] button[data-stream-selector-sweep][data-sweep]:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .stream-selector[data-stream-selector] ul {
+        list-style-type: none;
+        height: 100%;
+        overflow: scroll;
+        overflow-x: hidden;
+        background-color: rgba(0, 0, 0, 0.533);
+        -ms-overflow-style: none;
+    }
+
+    .stream-selector[data-stream-selector] ul::-webkit-scrollbar {
+        width: 0;
+    }
+
+    .stream-selector[data-stream-selector] li {
+        white-space: nowrap;
+    }
+
+    .stream-selector[data-stream-selector] li.current a {
+        color: #888888;
+    }
+
+    .stream-selector[data-stream-selector] a {
+        color: white;
+        display: block;
+        text-decoration: none;
+    }
+
+    .stream-selector[data-stream-selector] a:hover {
+        background-color: rgba(0, 0, 0, 0.6);
+        color: #cccccc;
+    }
+
+    .stream-selector[data-stream-selector].classic {
+        float: right;
+    }
+
+    .stream-selector[data-stream-selector].classic button {
+        height: 100%;
+    }
+
+    .stream-selector[data-stream-selector].classic button.button-fit-content {
+        width: -webkit-fit-content !important;
+        width: -moz-fit-content !important;
+        width: fit-content !important;
+    }
+
+    .stream-selector[data-stream-selector].classic button.media-control-icon:hover {
+        text-shadow: none;
+    }
+
+    .stream-selector[data-stream-selector].classic button[data-stream-selector-sweep] {
+        height: 1.2em;
+    }
+
+    .stream-selector[data-stream-selector].classic [data-playlist] {
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        left: 50%;
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+
+    .stream-selector[data-stream-selector].classic:not(.visible) [data-playlist] {
+        display: none;
+    }
+
+    .stream-selector[data-stream-selector].classic a {
+        position: relative;
+        padding: 5px 10px;
+    }
+
+    .stream-selector[data-stream-selector].fullsize {
+        width: 200px;
+        position: absolute;
+        z-index: 99999;
+        top: 0;
+        right: 0;
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+        transition: -webkit-transform 0.3s ease;
+        transition: transform 0.3s ease;
+        transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+        background-color: rgba(2, 2, 2, 0.5);
+        pointer-events: auto;
+        font-size: 12px;
+    }
+
+    .stream-selector[data-stream-selector].fullsize.visible {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    .stream-selector[data-stream-selector].fullsize .list-container {
+        height: 100%;
+    }
+
+    .stream-selector[data-stream-selector].fullsize button {
+        position: absolute;
+        color: #fff;
+        margin: unset;
+        font-family: Roboto, "Open Sans", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        border: none;
+        padding: 5px;
+        cursor: pointer;
+        background-color: rgba(2, 2, 2, 0.5);
+    }
+
+    .stream-selector[data-stream-selector].fullsize button:hover {
+        color: #c9c9c9;
+    }
+
+    .stream-selector[data-stream-selector].fullsize button[data-stream-selector-sweep] {
+        height: 3em;
+    }
+
+    .stream-selector[data-stream-selector].fullsize button[data-stream-selector-toggle] {
+        left: 0;
+        top: 50%;
+        -webkit-transform: rotate(-90deg) translateX(-50%) translateY(-100%);
+        transform: rotate(-90deg) translateX(-50%) translateY(-100%);
+        -webkit-transform-origin: left top;
+        transform-origin: left top;
+        transition: -webkit-transform 0.4s ease;
+        transition: transform 0.4s ease;
+        transition: transform 0.4s ease, -webkit-transform 0.4s ease;
+        line-height: unset;
+    }
+
+    .stream-selector[data-stream-selector].fullsize button[data-stream-selector-toggle].firefox {
+        top: 10px;
+        -webkit-transform: rotate(-90deg) translateX(-100%) translateY(-100%);
+        transform: rotate(-90deg) translateX(-100%) translateY(-100%);
+    }
+
+    .stream-selector[data-stream-selector].fullsize button[data-stream-selector-toggle].hidden {
+        -webkit-transform: rotate(0) translateY(-50%);
+        transform: rotate(0) translateY(-50%);
+    }
+
+    .stream-selector[data-stream-selector].fullsize [data-playlist] {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .stream-selector[data-stream-selector].fullsize ul {
+        text-shadow: black 0px 1px 1px, black 0px -1px 1px, black 1px 0px 1px, black -1px 0px 1px;
+        font-weight: bolder;
+        -ms-overflow-style: none;
+    }
+
+    .stream-selector[data-stream-selector].fullsize ul::-webkit-scrollbar {
+        width: 0;
+    }
+
+    .stream-selector[data-stream-selector].fullsize li {
+        position: relative;
+        height: 100px;
+        margin: 5px;
+        background-color: #5558;
+        box-sizing: border-box;
+    }
+
+    .stream-selector[data-stream-selector].fullsize li.current a:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border: solid 2px #aaff66;
+    }
+
+    .stream-selector[data-stream-selector].fullsize a {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        color: white;
+        padding: 4px;
+        display: block;
+        text-align: right;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .stream-selector[data-stream-selector].fullsize a:hover {
+        color: #cccccc;
+        background-color: initial;
+    }
+
+    .stream-selector[data-stream-selector].fullsize a:hover:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border: solid 2px white;
+    }
+
+    .stream-selector[data-stream-selector].fullsize span {
+        -webkit-font-smoothing: subpixel-antialiased;
+        line-height: 14px;
+        background-color: rgba(2, 2, 2, 0.5);
+    }
+
+    .stream-selector[data-stream-selector].fullsize video {
+        -o-object-fit: cover;
+        object-fit: cover;
+    }
+
+    .stream-selector[data-stream-selector].fullsize .video-preview-container {
+        height: 100%;
+    }
+
+    .stream-selector[data-stream-selector].fullsize.show_play_buttons li:after {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translateX(-25%) translateY(-50%);
+        transform: translateX(-25%) translateY(-50%);
+        border: solid 20px;
+        border-color: transparent;
+        border-left-color: #fff8;
+        border-left-width: 35px;
+        pointer-events: none;
+    }
+</style>
+<script type="text/javascript" src="//playercdn.cdnvideo.ru/aloha/clappr/clappr-logo-plugin.min.js"></script>
+<style type="text/css">
+    .logo[data-logo] {
+        position: relative;
+        float: right;
+        margin: 0 6px;
+        height: 100%;
+        -ms-flex-order: 1;
+        order: 1;
+    }
+
+    .logo[data-logo] a {
+        display: block;
+        outline: none;
+        height: 100%;
+    }
+
+    .logo[data-logo] img {
+        -o-object-fit: contain;
+        object-fit: contain;
+        height: 100%;
+        max-width: 80px;
+        transition: all 0.2s ease;
+    }
+
+    .logo[data-logo] img:hover {
+        opacity: 0.6;
+    }
+
+    .logo[data-logo] img:active {
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+</style>
+<script type="text/javascript" src="//playercdn.cdnvideo.ru/aloha/clappr/audio-track-selector.min.js"></script>
+<style type="text/css">
+    no-outline,
+    .media-control[data-media-control] .audio_track_selector[data-audio-track-selector] button[data-audio-track-selector-toggle],
+    .media-control[data-media-control] .audio_track_selector[data-audio-track-selector] li a {
+        outline: none;
+    }
+
+    .audio_track_selector_hidden {
+        display: none;
+    }
+
+    .media-control[data-media-control] .audio_track_selector[data-audio-track-selector] {
+        float: right;
+        position: relative;
+        height: 100%;
+        font-size: 10px;
+    }
+
+    .media-control[data-media-control] .audio_track_selector[data-audio-track-selector] button[data-audio-track-selector-toggle] {
+        height: 100%;
+        background-color: transparent;
+        color: #fff;
+        font-family: Roboto, "Open Sans", Arial, sans-serif;
+        font-size: inherit;
+        -webkit-font-smoothing: antialiased;
+        border: none;
+    }
+
+    .media-control[data-media-control] .audio_track_selector[data-audio-track-selector] button[data-audio-track-selector-toggle].text {
+        width: unset;
+    }
+
+    .media-control[data-media-control] .audio_track_selector[data-audio-track-selector] button[data-audio-track-selector-toggle]:hover {
+        color: #c9c9c9;
+    }
+
+    .media-control[data-media-control] .audio_track_selector[data-audio-track-selector] button[data-audio-track-selector-toggle].changing {
+        -webkit-animation: pulse 0.5s infinite alternate;
+        animation: pulse 0.5s infinite alternate;
+    }
+
+    .media-control[data-media-control] .audio_track_selector[data-audio-track-selector]:not(.visible) ul {
+        display: none;
+    }
+
+    .media-control[data-media-control] .audio_track_selector[data-audio-track-selector] ul {
+        list-style-type: none;
+        position: absolute;
+        bottom: 35px;
+        border: 1px solid black;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        border-radius: 5px;
+        background-color: rgba(0, 0, 0, 0.533);
+        text-shadow: black 2px 2px 2px;
+    }
+
+    .media-control[data-media-control] .audio_track_selector[data-audio-track-selector] li[data-title] {
+        color: white;
+        border-bottom: 1px solid #454d5e;
+        padding: 5px;
+    }
+
+    .media-control[data-media-control] .audio_track_selector[data-audio-track-selector] li a {
+        color: white;
+        padding: 5px 10px;
+        display: block;
+        text-decoration: none;
+    }
+
+    .media-control[data-media-control] .audio_track_selector[data-audio-track-selector] li a:hover {
+        background-color: rgba(0, 0, 0, 0.6);
+        color: #cccccc;
+    }
+
+    .media-control[data-media-control] .audio_track_selector[data-audio-track-selector] li.current a {
+        color: #888888;
+    }
+
+    @-webkit-keyframes pulse {
+        0% {
+            color: #ffffff;
+        }
+
+        50% {
+            color: #aaaaaa;
+        }
+
+        100% {
+            color: #555555;
+        }
+    }
+
+    @keyframes pulse {
+        0% {
+            color: #ffffff;
+        }
+
+        50% {
+            color: #aaaaaa;
+        }
+
+        100% {
+            color: #555555;
+        }
+    }
+</style>
+<script type="text/javascript" src="//playercdn.cdnvideo.ru/aloha/clappr/clappr-error-handler.min.js"></script>
+<style>
+    .clappr-error-handler[data-clappr-error-handler] {
+        position: absolute;
+        z-index: 99999;
+        width: 100%;
+        height: 100%;
+        background-color: #0007;
+        text-align: center;
+        font-weight: bold;
+        text-shadow: black 0px 0px 2px;
+        color: #fff;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        row-gap: 15px;
+        justify-content: center
+    }
+
+    .clappr-error-handler[data-clappr-error-handler] .bg-image {
+        background-size: cover;
+        position: absolute;
+        z-index: -2;
+        width: 100%;
+        height: 100%
+    }
+
+    .clappr-error-handler[data-clappr-error-handler][data-retrying='true'] .message-retrying {
+        display: block
+    }
+
+    .clappr-error-handler[data-clappr-error-handler][data-retrying='true'] .message-timer {
+        display: none
+    }
+
+    .clappr-error-handler[data-clappr-error-handler] h2.text {
+        font-size: 200%
+    }
+
+    .clappr-error-handler[data-clappr-error-handler] p {
+        font-size: 120%
+    }
+
+    .clappr-error-handler[data-clappr-error-handler] p.message-retrying {
+        display: none
+    }
+
+    .clappr-error-handler[data-clappr-error-handler] video {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: black;
+        background-size: cover;
+        z-index: -1
+    }
+</style>
+<script type="text/javascript" src="//playercdn.cdnvideo.ru/aloha/clappr/clappr-logo-plugin.min.js"></script>
+<style type="text/css">
+    .logo[data-logo] {
+        position: relative;
+        float: right;
+        margin: 0 6px;
+        height: 100%;
+        -ms-flex-order: 1;
+        order: 1;
+    }
+
+    .logo[data-logo] a {
+        display: block;
+        outline: none;
+        height: 100%;
+    }
+
+    .logo[data-logo] img {
+        -o-object-fit: contain;
+        object-fit: contain;
+        height: 100%;
+        max-width: 80px;
+        transition: all 0.2s ease;
+    }
+
+    .logo[data-logo] img:hover {
+        opacity: 0.6;
+    }
+
+    .logo[data-logo] img:active {
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+    }
+</style>
+<script type="text/javascript" src="//playercdn.cdnvideo.ru/aloha/clappr/clappr-poster.min.js"></script>
+<style type="text/css">
+    .player-poster[data-poster] {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -ms-flex-align: center;
+        align-items: center;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        z-index: 998;
+        top: 0;
+        left: 0;
+        background-color: transparent;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+    }
+
+    .player-poster[data-poster].clickable {
+        cursor: pointer;
+    }
+
+    .player-poster[data-poster]:hover .play-wrapper[data-poster] {
+        opacity: 1;
+    }
+
+    .player-poster[data-poster] .play-wrapper[data-poster] {
+        width: 100%;
+        height: 25%;
+        margin: 0 auto;
+        opacity: 0.75;
+        transition: opacity 0.1s ease;
+    }
+
+    .player-poster[data-poster] .play-wrapper[data-poster] svg {
+        height: 100%;
+    }
+
+    .player-poster[data-poster] .play-wrapper[data-poster] svg path {
+        fill: #fff;
+    }
+</style>
+<script type="text/javascript" src="//playercdn.cdnvideo.ru/aloha/clappr/source-updater.min.js"></script>
+<style>
+    #player-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .media-control-center-panel[data-media-control] .media-control-indicator:before {
+        content: none;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .media-control-center-panel[data-media-control] .media-control-indicator {
+        display: block;
+        position: absolute;
+        color: #ffffff;
+        font-size: 12px;
+        line-height: 12px;
+        margin: 0;
+    }
+
+    [data-player] .media-control[data-media-control] .media-control-layer[data-controls] .level_selector[data-level-selector] button.text {
+        width: max-content;
+    }
+</style>
+</head>
+
+<body>
+    <div id="player-wrapper">
+        <div data-player="" tabindex="9999" class="" style="height: 100%; width: 100%;">
+            <div class="media-control media-control-hide" data-media-control="" style="display: none;">
+                <button class="media-control-button media-control-icon" tabindex="-1" data-hd-indicator=""
+                    role="presentation" aria-hidden="true" style="display: none;"><svg
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                        <path fill="#010101"
+                            d="M5.375 7.062H2.637V4.26H.502v7.488h2.135V8.9h2.738v2.848h2.133V4.26H5.375v2.802zm5.97-2.81h-2.84v7.496h2.798c2.65 0 4.195-1.607 4.195-3.77v-.022c0-2.162-1.523-3.704-4.154-3.704zm2.06 3.758c0 1.21-.81 1.896-2.03 1.896h-.83V6.093h.83c1.22 0 2.03.696 2.03 1.896v.02z">
+                        </path>
+                    </svg></button>
+
+                <div class="media-control-background" data-background=""
+                    style="background: linear-gradient(90deg, rgb(50, 58, 68) 0%, rgb(50, 58, 68) 20%, rgb(70, 80, 90) 100%) center bottom / contain; height: 44px;">
+                </div>
+                <div class="media-control-layer" data-controls="">
+                    <div class="cloak-container">
+                        <div class="close-button media-control[data-media-control] media-control-icon">
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+
+                    <div class="media-control-center-panel" data-media-control="">
+
+                        <div class="bar-container seek-disabled" data-seekbar="">
+                            <div class="bar-background" data-seekbar="">
+                                <div class="bar-fill-1" data-seekbar=""></div>
+                                <div class="bar-fill-2 media-control-notransition" data-seekbar=""
+                                    style="width: 0%; background-color: white;"></div>
+                                <div class="bar-hover" data-seekbar=""></div>
+                            </div>
+                            <div class="bar-scrubber media-control-notransition" data-seekbar="" style="left: 0%;">
+                                <div class="bar-scrubber-icon" data-seekbar=""></div>
+                            </div>
+                        </div>
+                        <div class="media-control-indicator" role="presentation" aria-hidden="true" data-position="">
+                        </div>
+
+                        <div class="media-control-indicator" role="presentation" aria-hidden="true" data-duration="">
+                        </div>
+
+                    </div>
+
+
+                    <div class="media-control-left-panel" data-media-control="">
+
+                        <button type="button" class="media-control-button media-control-icon paused" data-playpause=""
+                            aria-label="Play / pause (space)" title="Play / pause (space)"><svg
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                <path fill="#010101" d="M1.425.35L14.575 8l-13.15 7.65V.35z"></path>
+                            </svg></button>
+
+                        <div class="seek-buttons-container enabled">
+
+                            <button type="button" class="media-control-button media-control-icon" data-seek="fr"
+                                aria-label="10 seconds rewind (shift+left)" title="10 seconds rewind (shift+left)"><svg
+                                    viewBox="0 0 32 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M15.9271 1.63388V6.98138C25.4146 6.98138 32.8704 15.5681 30.9729 25.4006C29.8038 31.3806 24.9929 36.1914 19.0129 37.3606C9.9471 39.1239 1.93543 32.8947 0.747096 24.4806C0.593763 23.3306 1.51376 22.3147 2.66376 22.3147C3.6221 22.3147 4.4271 23.0239 4.5421 23.9439C5.4621 30.2881 11.5571 34.9839 18.3996 33.5464C22.7313 32.6456 26.2579 29.1381 27.1588 24.7872C28.7304 17.3697 23.0763 10.8147 15.9271 10.8147V16.1814C15.9271 17.0247 14.8921 17.4464 14.2979 16.8522L7.03376 9.58805C6.65043 9.20472 6.65043 8.61055 7.03376 8.22722L14.2979 0.963048C14.8921 0.349715 15.9271 0.771382 15.9271 1.63388ZM12.1896 28.0647H13.8188V19.8805H13.6463L10.2538 21.088V22.4105L12.1896 21.8163V28.0647ZM22.0221 24.6914C22.0221 25.3047 21.9646 25.8414 21.8304 26.2631C21.6963 26.6847 21.5046 27.0681 21.2746 27.3556C21.0446 27.6431 20.7379 27.8539 20.4121 27.9881C20.0863 28.1222 19.7029 28.1797 19.2813 28.1797C18.8596 28.1797 18.4954 28.1222 18.1504 27.9881C17.8054 27.8539 17.5179 27.6431 17.2688 27.3556C17.0196 27.0681 16.8279 26.7039 16.6938 26.2631C16.5596 25.8222 16.4829 25.3047 16.4829 24.6914V23.2731C16.4829 22.6597 16.5404 22.1231 16.6746 21.7014C16.8088 21.2797 17.0004 20.8964 17.2304 20.6089C17.4604 20.3214 17.7671 20.1106 18.0929 19.9764C18.4188 19.8422 18.8021 19.7847 19.2238 19.7847C19.6454 19.7847 20.0096 19.8422 20.3546 19.9764C20.6996 20.1106 20.9871 20.3214 21.2363 20.6089C21.4854 20.8964 21.6771 21.2606 21.8113 21.7014C21.9454 22.1422 22.0221 22.6597 22.0221 23.2731V24.6914ZM20.3162 22.123C20.3737 22.3722 20.3929 22.6789 20.3929 23.043H20.3737V24.9022C20.3737 25.2664 20.3354 25.573 20.2971 25.8222C20.2587 26.0714 20.1821 26.2822 20.0862 26.4355C19.9904 26.5889 19.8562 26.7039 19.7221 26.7614C19.5879 26.8189 19.4154 26.8572 19.2429 26.8572C19.0704 26.8572 18.9171 26.8189 18.7637 26.7614C18.6104 26.7039 18.4954 26.5889 18.3996 26.4355C18.3037 26.2822 18.2271 26.0714 18.1696 25.8222C18.1121 25.573 18.0929 25.2664 18.0929 24.9022V23.043C18.0929 22.6789 18.1121 22.3722 18.1696 22.123C18.2271 21.8739 18.3037 21.6822 18.3996 21.5289C18.4954 21.3755 18.6296 21.2605 18.7637 21.203C18.8979 21.1455 19.0704 21.1072 19.2429 21.1072C19.4154 21.1072 19.5687 21.1455 19.7221 21.203C19.8754 21.2605 19.9904 21.3755 20.0862 21.5289C20.1821 21.6822 20.2587 21.8739 20.3162 22.123Z"
+                                        fill="black"></path>
+                                </svg></button>
+
+                            <button type="button" class="media-control-button media-control-icon" data-seek="ff"
+                                aria-label="10 seconds forward (shift+right)"
+                                title="10 seconds forward (shift+right)"><svg viewBox="0 0 32 38" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                        d="M27.4489 23.9751C27.583 23.0359 28.3689 22.3267 29.3272 22.3267C30.4772 22.3267 31.4164 23.3426 31.2439 24.4734C30.0555 33.0409 21.7755 39.3276 12.518 37.2576C6.59555 35.9351 2.18722 31.3542 1.03722 25.3934C-0.879449 15.5801 6.59555 6.9934 16.0639 6.9934V1.6459C16.0639 0.783396 17.0989 0.36173 17.693 0.955896L24.9572 8.22006C25.3405 8.6034 25.3405 9.19756 24.9572 9.5809L17.693 16.8451C17.0989 17.4584 16.0639 17.0367 16.0639 16.1742V10.8267C8.91472 10.8267 3.26055 17.3817 4.81305 24.7992C5.73305 29.1309 8.91472 32.4467 13.2272 33.4817C20.223 35.1684 26.5289 30.4342 27.4489 23.9751ZM13.9556 19.8926V28.0768H12.3264V21.8284L10.3906 22.4226V21.1001L13.7831 19.8926H13.9556ZM20.5106 19.9884C20.1656 19.8542 19.8014 19.7967 19.3798 19.7967C18.9581 19.7967 18.5939 19.8542 18.2489 19.9884C17.9039 20.1226 17.6164 20.3334 17.3864 20.6209C17.1564 20.9084 16.9456 21.2726 16.8306 21.7134C16.7156 22.1542 16.6389 22.6717 16.6389 23.2851V24.7034C16.6389 25.3167 16.7156 25.8534 16.8498 26.2751C16.9839 26.6967 17.1756 27.0801 17.4248 27.3676C17.6739 27.6551 17.9614 27.8659 18.3064 28.0001C18.6514 28.1342 19.0156 28.1917 19.4373 28.1917C19.8589 28.1917 20.2231 28.1342 20.5681 28.0001C20.9131 27.8659 21.2006 27.6551 21.4306 27.3676C21.6606 27.0801 21.8523 26.7159 21.9864 26.2751C22.1206 25.8342 22.1781 25.3167 22.1781 24.7034V23.2851C22.1781 22.6717 22.1014 22.1351 21.9673 21.7134C21.8331 21.2917 21.6414 20.9084 21.3923 20.6209C21.1431 20.3334 20.8364 20.1226 20.5106 19.9884ZM20.4531 25.8343C20.5106 25.5851 20.5297 25.2784 20.5297 24.9143H20.5489V23.0551C20.5489 22.6909 20.5297 22.3843 20.4722 22.1351C20.4147 21.8859 20.3381 21.6943 20.2422 21.5409C20.1464 21.3876 20.0122 21.2726 19.8781 21.2151C19.7439 21.1576 19.5714 21.1193 19.3989 21.1193C19.2264 21.1193 19.0731 21.1576 18.9197 21.2151C18.7664 21.2726 18.6706 21.3876 18.5556 21.5409C18.4406 21.6943 18.3831 21.8859 18.3256 22.1351C18.2681 22.3843 18.2489 22.6909 18.2489 23.0551V24.9143C18.2489 25.2784 18.2681 25.5851 18.3256 25.8343C18.3831 26.0834 18.4597 26.2943 18.5556 26.4476C18.6514 26.6009 18.7856 26.7159 18.9197 26.7734C19.0539 26.8309 19.2264 26.8693 19.3989 26.8693C19.5714 26.8693 19.7247 26.8309 19.8781 26.7734C20.0314 26.7159 20.1464 26.6009 20.2422 26.4476C20.3381 26.2943 20.3956 26.0834 20.4531 25.8343Z"
+                                        fill="black"></path>
+                                </svg></button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="media-control-right-panel" data-media-control="">
+
+                        <button type="button" class="media-control-button media-control-icon" data-fullscreen=""
+                            aria-label="Fullscreen (f)" title="Fullscreen (f)"><svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 16 16">
+                                <path fill="#010101"
+                                    d="M7.156 8L4 11.156V8.5H3V13h4.5v-1H4.844L8 8.844 7.156 8zM8.5 3v1h2.657L8 7.157 8.846 8 12 4.844V7.5h1V3H8.5z"
+                                    style=""></path>
+                            </svg></button>
+                        <div class="cc-controls" data-cc-controls=""><button type="button"
+                                class="cc-button media-control-button media-control-icon" data-cc-button=""
+                                aria-label="cc-button"><svg version="1.1" id="Layer_1"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    x="0px" y="0px" viewBox="0 0 49 41.8" style="enable-background:new 0 0 49 41.8;"
+                                    xml:space="preserve">
+                                    <path
+                                        d="M47.1,0H3.2C1.6,0,0,1.2,0,2.8v31.5C0,35.9,1.6,37,3.2,37h11.9l3.2,1.9l4.7,2.7c0.9,0.5,2-0.1,2-1.1V37h22.1
+	c1.6,0,1.9-1.1,1.9-2.7V2.8C49,1.2,48.7,0,47.1,0z M7.2,18.6c0-4.8,3.5-9.3,9.9-9.3c4.8,0,7.1,2.7,7.1,2.7l-2.5,4
+	c0,0-1.7-1.7-4.2-1.7c-2.8,0-4.3,2.1-4.3,4.3c0,2.1,1.5,4.4,4.5,4.4c2.5,0,4.9-2.1,4.9-2.1l2.2,4.2c0,0-2.7,2.9-7.6,2.9
+	C10.8,27.9,7.2,23.5,7.2,18.6z M36.9,27.9c-6.4,0-9.9-4.4-9.9-9.3c0-4.8,3.5-9.3,9.9-9.3C41.7,9.3,44,12,44,12l-2.5,4
+	c0,0-1.7-1.7-4.2-1.7c-2.8,0-4.3,2.1-4.3,4.3c0,2.1,1.5,4.4,4.5,4.4c2.5,0,4.9-2.1,4.9-2.1l2.2,4.2C44.5,25,41.9,27.9,36.9,27.9z">
+                                    </path>
+                                </svg></button>
+                            <ul style="display: none;">
+
+                                <li><a href="#" data-cc-select="-1">Disabled</a></li>
+
+                            </ul>
+                            <style class="clappr-style">
+                                .cc-controls[data-cc-controls] {
+                                    float: right;
+                                    position: relative;
+                                    display: none;
+                                }
+
+                                .cc-controls[data-cc-controls].available {
+                                    display: block;
+                                }
+
+                                .cc-controls[data-cc-controls] .cc-button {
+                                    padding: 6px !important;
+                                }
+
+                                .cc-controls[data-cc-controls] .cc-button.enabled {
+                                    display: block;
+                                    opacity: 1.0;
+                                }
+
+                                .cc-controls[data-cc-controls] .cc-button.enabled:hover {
+                                    opacity: 1.0;
+                                    text-shadow: none;
+                                }
+
+                                .cc-controls[data-cc-controls]>ul {
+                                    list-style-type: none;
+                                    position: absolute;
+                                    bottom: 25px;
+                                    border: 1px solid black;
+                                    display: none;
+                                    background-color: #e6e6e6;
+                                }
+
+                                .cc-controls[data-cc-controls] li {
+                                    font-size: 10px;
+                                }
+
+                                .cc-controls[data-cc-controls] li[data-title] {
+                                    background-color: #c3c2c2;
+                                    padding: 5px;
+                                }
+
+                                .cc-controls[data-cc-controls] li a {
+                                    color: #444;
+                                    padding: 2px 10px;
+                                    display: block;
+                                    text-decoration: none;
+                                }
+
+                                .cc-controls[data-cc-controls] li a:hover {
+                                    background-color: #555;
+                                    color: white;
+                                }
+
+                                .cc-controls[data-cc-controls] li a:hover a {
+                                    color: white;
+                                    text-decoration: none;
+                                }
+
+                                .cc-controls[data-cc-controls] li.current a {
+                                    color: #f00;
+                                }
+                            </style>
+                        </div>
+
+                        <div class="drawer-container" data-volume="">
+                            <div class="drawer-icon-container" data-volume="">
+                                <div role="button" aria-label="Mute (m)" title="Mute (m)"
+                                    class="drawer-icon media-control-icon" data-volume=""><svg
+                                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" clip-rule="evenodd" fill="#010101"
+                                            d="M11.5 11h-.002v1.502L7.798 10H4.5V6h3.297l3.7-2.502V4.5h.003V11zM11 4.49L7.953 6.5H5v3h2.953L11 11.51V4.49z"
+                                            style=""></path>
+                                    </svg></div>
+                                <span class="drawer-text" data-volume=""></span>
+                            </div>
+
+                            <div class="bar-container volume-bar-hide" data-volume="">
+
+                                <div class="segmented-bar-element fill" data-volume="" style=""></div>
+
+                                <div class="segmented-bar-element fill" data-volume="" style=""></div>
+
+                                <div class="segmented-bar-element fill" data-volume="" style=""></div>
+
+                                <div class="segmented-bar-element fill" data-volume="" style=""></div>
+
+                                <div class="segmented-bar-element fill" data-volume="" style=""></div>
+
+                                <div class="segmented-bar-element fill" data-volume="" style=""></div>
+
+                                <div class="segmented-bar-element fill" data-volume="" style=""></div>
+
+                                <div class="segmented-bar-element fill" data-volume="" style=""></div>
+
+                                <div class="segmented-bar-element fill" data-volume="" style=""></div>
+
+                                <div class="segmented-bar-element fill" data-volume="" style=""></div>
+
+                            </div>
+
+                        </div>
+                        <div class="logo" data-logo="">
+
+                            <a href="//www.mid.ru/playercdn.cdnvideo.ru" target="_blank">
+                                <img src="//playercdn.cdnvideo.ru/players/images/mid_logo.png">
+                            </a>
+
+                        </div>
+
+                        <div class="cloak"><button class="media-control-button media-control-icon"><svg
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path
+                                        d="M24 13.616v-3.232c-1.651-.587-2.694-.752-3.219-2.019v-.001c-.527-1.271.1-2.134.847-3.707l-2.285-2.285c-1.561.742-2.433 1.375-3.707.847h-.001c-1.269-.526-1.435-1.576-2.019-3.219h-3.232c-.582 1.635-.749 2.692-2.019 3.219h-.001c-1.271.528-2.132-.098-3.707-.847l-2.285 2.285c.745 1.568 1.375 2.434.847 3.707-.527 1.271-1.584 1.438-3.219 2.02v3.232c1.632.58 2.692.749 3.219 2.019.53 1.282-.114 2.166-.847 3.707l2.285 2.286c1.562-.743 2.434-1.375 3.707-.847h.001c1.27.526 1.436 1.579 2.019 3.219h3.232c.582-1.636.75-2.69 2.027-3.222h.001c1.262-.524 2.12.101 3.698.851l2.285-2.286c-.744-1.563-1.375-2.433-.848-3.706.527-1.271 1.588-1.44 3.221-2.021zm-12 2.384c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z">
+                                    </path>
+                                </svg></button></div>
+                    </div>
+
+                </div>
+                <style class="clappr-style">
+                    .media-control-notransition {
+                        transition: none !important;
+                    }
+
+                    .media-control[data-media-control] {
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        z-index: 9999;
+                        pointer-events: none;
+                    }
+
+                    .media-control[data-media-control].dragging {
+                        pointer-events: auto;
+                        cursor: -webkit-grabbing !important;
+                        cursor: grabbing !important;
+                        cursor: url("closed-hand.cur"), move;
+                    }
+
+                    .media-control[data-media-control].dragging * {
+                        cursor: -webkit-grabbing !important;
+                        cursor: grabbing !important;
+                        cursor: url("closed-hand.cur"), move;
+                    }
+
+                    .media-control[data-media-control] .media-control-background[data-background] {
+                        position: absolute;
+                        height: 40%;
+                        width: 100%;
+                        bottom: 0;
+                        background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+                        will-change: transform, opacity;
+                        transition: opacity 0.6s ease-out;
+                    }
+
+                    .media-control[data-media-control] .media-control-icon {
+                        line-height: 0;
+                        letter-spacing: 0;
+                        speak: none;
+                        color: #fff;
+                        opacity: 0.5;
+                        vertical-align: middle;
+                        text-align: left;
+                        transition: all 0.1s ease;
+                    }
+
+                    .media-control[data-media-control] .media-control-icon:hover {
+                        color: white;
+                        opacity: 0.75;
+                        text-shadow: rgba(255, 255, 255, 0.8) 0 0 5px;
+                    }
+
+                    .media-control[data-media-control].media-control-hide .media-control-background[data-background] {
+                        opacity: 0;
+                    }
+
+                    .media-control[data-media-control].media-control-hide .media-control-layer[data-controls] {
+                        transform: translateY(50px);
+                    }
+
+                    .media-control[data-media-control].media-control-hide .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-scrubber[data-seekbar] {
+                        opacity: 0;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] {
+                        position: absolute;
+                        transform: translateY(-7px);
+                        bottom: 0;
+                        width: 100%;
+                        height: 32px;
+                        font-size: 0;
+                        vertical-align: middle;
+                        pointer-events: auto;
+                        transition: bottom 0.4s ease-out;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .media-control-left-panel[data-media-control] {
+                        position: absolute;
+                        top: 0;
+                        left: 4px;
+                        height: 100%;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .media-control-center-panel[data-media-control] {
+                        height: 100%;
+                        text-align: center;
+                        line-height: 32px;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .media-control-right-panel[data-media-control] {
+                        position: absolute;
+                        top: 0;
+                        right: 4px;
+                        height: 100%;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] button.media-control-button {
+                        background-color: transparent;
+                        border: 0;
+                        margin: 0 6px;
+                        padding: 0;
+                        cursor: pointer;
+                        display: inline-block;
+                        width: 32px;
+                        height: 100%;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] button.media-control-button svg {
+                        width: 100%;
+                        height: 22px;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] button.media-control-button svg path {
+                        fill: white;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] button.media-control-button:focus {
+                        outline: none;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] button.media-control-button[data-play] {
+                        float: left;
+                        height: 100%;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] button.media-control-button[data-pause] {
+                        float: left;
+                        height: 100%;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] button.media-control-button[data-stop] {
+                        float: left;
+                        height: 100%;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] button.media-control-button[data-fullscreen] {
+                        float: right;
+                        background-color: transparent;
+                        border: 0;
+                        height: 100%;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] button.media-control-button[data-hd-indicator] {
+                        background-color: transparent;
+                        border: 0;
+                        cursor: default;
+                        display: none;
+                        float: right;
+                        height: 100%;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] button.media-control-button[data-hd-indicator].enabled {
+                        display: block;
+                        opacity: 1.0;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] button.media-control-button[data-hd-indicator].enabled:hover {
+                        opacity: 1.0;
+                        text-shadow: none;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] button.media-control-button[data-playpause] {
+                        float: left;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] button.media-control-button[data-playstop] {
+                        float: left;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .media-control-indicator[data-position],
+                    .media-control[data-media-control] .media-control-layer[data-controls] .media-control-indicator[data-duration] {
+                        display: inline-block;
+                        font-size: 10px;
+                        color: white;
+                        cursor: default;
+                        line-height: 32px;
+                        position: relative;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .media-control-indicator[data-position] {
+                        margin: 0 6px 0 7px;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .media-control-indicator[data-duration] {
+                        color: rgba(255, 255, 255, 0.5);
+                        margin-right: 6px;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .media-control-indicator[data-duration]:before {
+                        content: "|";
+                        margin-right: 7px;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar] {
+                        position: absolute;
+                        top: -20px;
+                        left: 0;
+                        display: inline-block;
+                        vertical-align: middle;
+                        width: 100%;
+                        height: 25px;
+                        cursor: pointer;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-background[data-seekbar] {
+                        width: 100%;
+                        height: 1px;
+                        position: relative;
+                        top: 12px;
+                        background-color: #666666;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-background[data-seekbar] .bar-fill-1[data-seekbar] {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 0;
+                        height: 100%;
+                        background-color: #c2c2c2;
+                        transition: all 0.1s ease-out;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-background[data-seekbar] .bar-fill-2[data-seekbar] {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 0;
+                        height: 100%;
+                        background-color: #005aff;
+                        transition: all 0.1s ease-out;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-background[data-seekbar] .bar-hover[data-seekbar] {
+                        opacity: 0;
+                        position: absolute;
+                        top: -3px;
+                        width: 5px;
+                        height: 7px;
+                        background-color: rgba(255, 255, 255, 0.5);
+                        transition: opacity 0.1s ease;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar]:hover .bar-background[data-seekbar] .bar-hover[data-seekbar] {
+                        opacity: 1;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar].seek-disabled {
+                        cursor: default;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar].seek-disabled:hover .bar-background[data-seekbar] .bar-hover[data-seekbar] {
+                        opacity: 0;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-scrubber[data-seekbar] {
+                        position: absolute;
+                        transform: translateX(-50%);
+                        top: 2px;
+                        left: 0;
+                        width: 20px;
+                        height: 20px;
+                        opacity: 1;
+                        transition: all 0.1s ease-out;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .bar-container[data-seekbar] .bar-scrubber[data-seekbar] .bar-scrubber-icon[data-seekbar] {
+                        position: absolute;
+                        left: 6px;
+                        top: 6px;
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 10px;
+                        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
+                        background-color: white;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] {
+                        float: right;
+                        display: inline-block;
+                        height: 32px;
+                        cursor: pointer;
+                        margin: 0 6px;
+                        box-sizing: border-box;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .drawer-icon-container[data-volume] {
+                        float: left;
+                        bottom: 0;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .drawer-icon-container[data-volume] .drawer-icon[data-volume] {
+                        background-color: transparent;
+                        border: 0;
+                        box-sizing: content-box;
+                        width: 32px;
+                        height: 32px;
+                        opacity: 0.5;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .drawer-icon-container[data-volume] .drawer-icon[data-volume]:hover {
+                        opacity: 0.75;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .drawer-icon-container[data-volume] .drawer-icon[data-volume] svg {
+                        height: 24px;
+                        position: relative;
+                        top: 3px;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .drawer-icon-container[data-volume] .drawer-icon[data-volume] svg path {
+                        fill: white;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .drawer-icon-container[data-volume] .drawer-icon[data-volume].muted svg {
+                        margin-left: 2px;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] {
+                        float: left;
+                        position: relative;
+                        overflow: hidden;
+                        top: 6px;
+                        width: 42px;
+                        height: 18px;
+                        padding: 3px 0;
+                        transition: width .2s ease-out;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] .bar-background[data-volume] {
+                        height: 1px;
+                        position: relative;
+                        top: 7px;
+                        margin: 0 3px;
+                        background-color: #666666;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] .bar-background[data-volume] .bar-fill-1[data-volume] {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 0;
+                        height: 100%;
+                        background-color: #c2c2c2;
+                        transition: all 0.1s ease-out;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] .bar-background[data-volume] .bar-fill-2[data-volume] {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 0;
+                        height: 100%;
+                        background-color: #005aff;
+                        transition: all 0.1s ease-out;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] .bar-background[data-volume] .bar-hover[data-volume] {
+                        opacity: 0;
+                        position: absolute;
+                        top: -3px;
+                        width: 5px;
+                        height: 7px;
+                        background-color: rgba(255, 255, 255, 0.5);
+                        transition: opacity 0.1s ease;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] .bar-scrubber[data-volume] {
+                        position: absolute;
+                        transform: translateX(-50%);
+                        top: 0px;
+                        left: 0;
+                        width: 20px;
+                        height: 20px;
+                        opacity: 1;
+                        transition: all 0.1s ease-out;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] .bar-scrubber[data-volume] .bar-scrubber-icon[data-volume] {
+                        position: absolute;
+                        left: 6px;
+                        top: 6px;
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 10px;
+                        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
+                        background-color: white;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] .segmented-bar-element[data-volume] {
+                        float: left;
+                        width: 4px;
+                        padding-left: 2px;
+                        height: 12px;
+                        opacity: 0.5;
+                        box-shadow: inset 2px 0 0 white;
+                        transition: transform .2s ease-out;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] .segmented-bar-element[data-volume].fill {
+                        box-shadow: inset 2px 0 0 #fff;
+                        opacity: 1;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] .segmented-bar-element[data-volume]:nth-of-type(1) {
+                        padding-left: 0;
+                    }
+
+                    .media-control[data-media-control] .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume] .segmented-bar-element[data-volume]:hover {
+                        transform: scaleY(1.5);
+                    }
+
+                    .media-control[data-media-control].w320 .media-control-layer[data-controls] .drawer-container[data-volume] .bar-container[data-volume].volume-bar-hide {
+                        width: 0;
+                        height: 12px;
+                        top: 9px;
+                        padding: 0;
+                    }
+                </style>
+                <div class="seek-time" data-seek-time="" style="display: none; left: -100%;"><span
+                        data-seek-time=""></span>
+                    <span data-duration="" style="display: none;"></span>
+                    <style class="clappr-style">
+                        .seek-time[data-seek-time] {
+                            position: absolute;
+                            white-space: nowrap;
+                            height: 20px;
+                            line-height: 20px;
+                            font-size: 0;
+                            left: -100%;
+                            bottom: 55px;
+                            background-color: rgba(2, 2, 2, 0.5);
+                            z-index: 9999;
+                            transition: opacity 0.1s ease;
+                        }
+
+                        .seek-time[data-seek-time].hidden[data-seek-time] {
+                            opacity: 0;
+                        }
+
+                        .seek-time[data-seek-time] [data-seek-time] {
+                            display: inline-block;
+                            color: white;
+                            font-size: 10px;
+                            padding-left: 7px;
+                            padding-right: 7px;
+                            vertical-align: top;
+                        }
+
+                        .seek-time[data-seek-time] [data-duration] {
+                            display: inline-block;
+                            color: rgba(255, 255, 255, 0.5);
+                            font-size: 10px;
+                            padding-right: 7px;
+                            vertical-align: top;
+                        }
+
+                        .seek-time[data-seek-time] [data-duration]:before {
+                            content: "|";
+                            margin-right: 7px;
+                        }
+                    </style>
+                </div>
+            </div>
+            <style class="clappr-style">
+                [data-player] {
+                    -webkit-touch-callout: none;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    -o-user-select: none;
+                    user-select: none;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                    transform: translate3d(0, 0, 0);
+                    position: relative;
+                    margin: 0;
+                    padding: 0;
+                    border: 0;
+                    font-style: normal;
+                    font-weight: normal;
+                    text-align: center;
+                    overflow: hidden;
+                    font-size: 100%;
+                    font-family: "Roboto", "Open Sans", Arial, sans-serif;
+                    text-shadow: 0 0 0;
+                    box-sizing: border-box;
+                }
+
+                [data-player]:focus {
+                    outline: 0;
+                }
+
+                [data-player] * {
+                    box-sizing: inherit;
+                }
+
+                [data-player]>* {
+                    float: none;
+                    max-width: none;
+                }
+
+                [data-player]>div {
+                    display: block;
+                }
+
+                [data-player].fullscreen {
+                    width: 100% !important;
+                    height: 100% !important;
+                    top: 0;
+                    left: 0;
+                }
+
+                [data-player].nocursor {
+                    cursor: none;
+                }
+
+                .clappr-style {
+                    display: none !important;
+                }
+            </style>
+            <style class="clappr-style">
+                [data-player] div,
+                [data-player] span,
+                [data-player] applet,
+                [data-player] object,
+                [data-player] iframe,
+                [data-player] h1,
+                [data-player] h2,
+                [data-player] h3,
+                [data-player] h4,
+                [data-player] h5,
+                [data-player] h6,
+                [data-player] p,
+                [data-player] blockquote,
+                [data-player] pre,
+                [data-player] a,
+                [data-player] abbr,
+                [data-player] acronym,
+                [data-player] address,
+                [data-player] big,
+                [data-player] cite,
+                [data-player] code,
+                [data-player] del,
+                [data-player] dfn,
+                [data-player] em,
+                [data-player] img,
+                [data-player] ins,
+                [data-player] kbd,
+                [data-player] q,
+                [data-player] s,
+                [data-player] samp,
+                [data-player] small,
+                [data-player] strike,
+                [data-player] strong,
+                [data-player] sub,
+                [data-player] sup,
+                [data-player] tt,
+                [data-player] var,
+                [data-player] b,
+                [data-player] u,
+                [data-player] i,
+                [data-player] center,
+                [data-player] dl,
+                [data-player] dt,
+                [data-player] dd,
+                [data-player] ol,
+                [data-player] ul,
+                [data-player] li,
+                [data-player] fieldset,
+                [data-player] form,
+                [data-player] label,
+                [data-player] legend,
+                [data-player] table,
+                [data-player] caption,
+                [data-player] tbody,
+                [data-player] tfoot,
+                [data-player] thead,
+                [data-player] tr,
+                [data-player] th,
+                [data-player] td,
+                [data-player] article,
+                [data-player] aside,
+                [data-player] canvas,
+                [data-player] details,
+                [data-player] embed,
+                [data-player] figure,
+                [data-player] figcaption,
+                [data-player] footer,
+                [data-player] header,
+                [data-player] hgroup,
+                [data-player] menu,
+                [data-player] nav,
+                [data-player] output,
+                [data-player] ruby,
+                [data-player] section,
+                [data-player] summary,
+                [data-player] time,
+                [data-player] mark,
+                [data-player] audio,
+                [data-player] video {
+                    margin: 0;
+                    padding: 0;
+                    border: 0;
+                    font: inherit;
+                    font-size: 100%;
+                    vertical-align: baseline;
+                }
+
+                [data-player] table {
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                }
+
+                [data-player] caption,
+                [data-player] th,
+                [data-player] td {
+                    text-align: left;
+                    font-weight: normal;
+                    vertical-align: middle;
+                }
+
+                [data-player] q,
+                [data-player] blockquote {
+                    quotes: none;
+                }
+
+                [data-player] q:before,
+                [data-player] q:after,
+                [data-player] blockquote:before,
+                [data-player] blockquote:after {
+                    content: "";
+                    content: none;
+                }
+
+                [data-player] a img {
+                    border: none;
+                }
+            </style>
+            <div class="container" data-container="">
+                <div class="player-poster clickable" data-poster=""
+                    style="background-image: url(&quot;//playercdn.cdnvideo.ru/aloha/players/images/mid_poster.jpg&quot;); background-size: contain;">
+                    <div class="play-wrapper" data-poster=""><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
+                            data-poster="" class="poster-icon">
+                            <path fill="white" d="M1.425.35L14.575 8l-13.15 7.65V.35z"></path>
+                        </svg></div>
+                    <div class="geo-restictions" style="padding: 20px; display: none;"></div>
+                    <div class="its-the-final-countdown--ta-da-daat-dat--ta-da-dat-dat-dat"
+                        style="padding: 20px; display: none;"></div>
+                </div>
+                <div data-spinner="" class="spinner-three-bounce" style="display: none;">
+                    <div data-bounce1=""></div>
+                    <div data-bounce2=""></div>
+                    <div data-bounce3=""></div>
+                    <style class="clappr-style">
+                        .spinner-three-bounce[data-spinner] {
+                            position: absolute;
+                            margin: 0 auto;
+                            width: 70px;
+                            text-align: center;
+                            z-index: 999;
+                            left: 0;
+                            right: 0;
+                            margin-left: auto;
+                            margin-right: auto;
+                            /* center vertically */
+                            top: 50%;
+                            transform: translateY(-50%);
+                        }
+
+                        .spinner-three-bounce[data-spinner]>div {
+                            width: 18px;
+                            height: 18px;
+                            background-color: #FFFFFF;
+                            border-radius: 100%;
+                            display: inline-block;
+                            -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+                            animation: bouncedelay 1.4s infinite ease-in-out;
+                            /* Prevent first frame from flickering when animation starts */
+                            -webkit-animation-fill-mode: both;
+                            animation-fill-mode: both;
+                        }
+
+                        .spinner-three-bounce[data-spinner] [data-bounce1] {
+                            -webkit-animation-delay: -0.32s;
+                            animation-delay: -0.32s;
+                        }
+
+                        .spinner-three-bounce[data-spinner] [data-bounce2] {
+                            -webkit-animation-delay: -0.16s;
+                            animation-delay: -0.16s;
+                        }
+
+                        @-webkit-keyframes bouncedelay {
+
+                            0%,
+                            80%,
+                            100% {
+                                transform: scale(0);
+                            }
+
+                            40% {
+                                transform: scale(1);
+                            }
+                        }
+
+                        @keyframes bouncedelay {
+
+                            0%,
+                            80%,
+                            100% {
+                                transform: scale(0);
+                            }
+
+                            40% {
+                                transform: scale(1);
+                            }
+                        }
+                    </style>
+                </div>
+                <style class="clappr-style">
+                    .container[data-container] {
+                        position: absolute;
+                        background-color: black;
+                        height: 100%;
+                        width: 100%;
+                        max-width: 100%;
+                    }
+
+                    .container[data-container] .chromeless {
+                        cursor: default;
+                    }
+
+                    [data-player]:not(.nocursor) .container[data-container]:not(.chromeless).pointer-enabled {
+                        cursor: pointer;
+                    }
+                </style><video data-html5-video="" poster="//playercdn.cdnvideo.ru/aloha/players/images/mid_poster.jpg"
+                    preload="metadata" playsinline="playsinline">
+                    <style class="clappr-style">
+                        [data-html5-video] {
+                            position: absolute;
+                            height: 100%;
+                            width: 100%;
+                            display: block;
+                        }
+                    </style>
+                </video>
+            </div>
+            <style class="clappr-style">
+                [data-player] {
+                    -webkit-touch-callout: none;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    -o-user-select: none;
+                    user-select: none;
+                    -webkit-font-smoothing: antialiased;
+                    -moz-osx-font-smoothing: grayscale;
+                    transform: translate3d(0, 0, 0);
+                    position: relative;
+                    margin: 0;
+                    padding: 0;
+                    border: 0;
+                    font-style: normal;
+                    font-weight: normal;
+                    text-align: center;
+                    overflow: hidden;
+                    font-size: 100%;
+                    font-family: "Roboto", "Open Sans", Arial, sans-serif;
+                    text-shadow: 0 0 0;
+                    box-sizing: border-box;
+                }
+
+                [data-player]:focus {
+                    outline: 0;
+                }
+
+                [data-player] * {
+                    box-sizing: inherit;
+                }
+
+                [data-player]>* {
+                    float: none;
+                    max-width: none;
+                }
+
+                [data-player]>div {
+                    display: block;
+                }
+
+                [data-player].fullscreen {
+                    width: 100% !important;
+                    height: 100% !important;
+                    top: 0;
+                    left: 0;
+                }
+
+                [data-player].nocursor {
+                    cursor: none;
+                }
+
+                .clappr-style {
+                    display: none !important;
+                }
+            </style>
+            <style class="clappr-style">
+                [data-player] div,
+                [data-player] span,
+                [data-player] applet,
+                [data-player] object,
+                [data-player] iframe,
+                [data-player] h1,
+                [data-player] h2,
+                [data-player] h3,
+                [data-player] h4,
+                [data-player] h5,
+                [data-player] h6,
+                [data-player] p,
+                [data-player] blockquote,
+                [data-player] pre,
+                [data-player] a,
+                [data-player] abbr,
+                [data-player] acronym,
+                [data-player] address,
+                [data-player] big,
+                [data-player] cite,
+                [data-player] code,
+                [data-player] del,
+                [data-player] dfn,
+                [data-player] em,
+                [data-player] img,
+                [data-player] ins,
+                [data-player] kbd,
+                [data-player] q,
+                [data-player] s,
+                [data-player] samp,
+                [data-player] small,
+                [data-player] strike,
+                [data-player] strong,
+                [data-player] sub,
+                [data-player] sup,
+                [data-player] tt,
+                [data-player] var,
+                [data-player] b,
+                [data-player] u,
+                [data-player] i,
+                [data-player] center,
+                [data-player] dl,
+                [data-player] dt,
+                [data-player] dd,
+                [data-player] ol,
+                [data-player] ul,
+                [data-player] li,
+                [data-player] fieldset,
+                [data-player] form,
+                [data-player] label,
+                [data-player] legend,
+                [data-player] table,
+                [data-player] caption,
+                [data-player] tbody,
+                [data-player] tfoot,
+                [data-player] thead,
+                [data-player] tr,
+                [data-player] th,
+                [data-player] td,
+                [data-player] article,
+                [data-player] aside,
+                [data-player] canvas,
+                [data-player] details,
+                [data-player] embed,
+                [data-player] figure,
+                [data-player] figcaption,
+                [data-player] footer,
+                [data-player] header,
+                [data-player] hgroup,
+                [data-player] menu,
+                [data-player] nav,
+                [data-player] output,
+                [data-player] ruby,
+                [data-player] section,
+                [data-player] summary,
+                [data-player] time,
+                [data-player] mark,
+                [data-player] audio,
+                [data-player] video {
+                    margin: 0;
+                    padding: 0;
+                    border: 0;
+                    font: inherit;
+                    font-size: 100%;
+                    vertical-align: baseline;
+                }
+
+                [data-player] table {
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                }
+
+                [data-player] caption,
+                [data-player] th,
+                [data-player] td {
+                    text-align: left;
+                    font-weight: normal;
+                    vertical-align: middle;
+                }
+
+                [data-player] q,
+                [data-player] blockquote {
+                    quotes: none;
+                }
+
+                [data-player] q:before,
+                [data-player] q:after,
+                [data-player] blockquote:before,
+                [data-player] blockquote:after {
+                    content: "";
+                    content: none;
+                }
+
+                [data-player] a img {
+                    border: none;
+                }
+            </style>
+        </div>
+    </div>
+    <script>
+        var poster;
+
+        var player = new Clappr.Player({
+            poster,
+            language: 'en-EN',
+            parentId: "#player-wrapper",
+            width: '100%',
+            height: '100%',
+            source: '//live-mid.cdnvideo.ru/mid_multilang/mid.smil/playlist.m3u8?DVR',
+            autoPlay: false,
+            plugins: [
+                Clappr.Browser.isMobile && Clappr.ContainerPlugin.extend({
+                    name: 'click_to_pause'
+                }),
+                LevelSelector,
+                ClapprErrorHandler,
+                ClapprLogoPlugin,
+                ClapprStyling,
+                SourceUpdater,
+                AudioTrackSelector,
+                ClapprPoster
+
+            ],
+            logoPlugin: {
+                src: "//playercdn.cdnvideo.ru/players/images/mid_logo.png",
+                url: "//www.mid.ru/" + window.location.hostname,
+            },
+            poster: {
+                url: '//playercdn.cdnvideo.ru/aloha/players/images/mid_poster.jpg',
+                scale: 'full',
+            },
+            mediacontrol: {
+                enableSeekButtons: !Clappr.Browser.isMobile,
+                size: Clappr.Browser.isMobile && 'big',
+                background: "linear-gradient(90deg,rgb(50,58,68) 0%,rgb(50,58,68) 20%,rgb(70,80,90) 100%)",
+                seekbarColor: "white",
+                hideList: [
+                    'hdIndicator'
+                ]
+            },
+            AudioTrackSelectorConfig: {
+                labels: {
+                    4: 'Español',
+                    3: 'Français',
+                    2: 'English',
+                    1: 'Русский',
+                    0: 'Original'
+                },
+                labelCallback: function (trackInfo, label) {
+                    return label;
+                }
+            },
+            playback: {
+                playInline: true,
+            },
+            SourceUpdaterConfig: {
+                fetchInterval: 5000
+            },
+            clapprErrorHandler: {
+                text: 'There is no broadcast now. Please come back later.',
+            },
+        });
+        if (Clappr.Browser.isMobile) {
+            $('head').append(`
+            <style>
+               .stream-selector[data-stream-selector] li {
+                    white-space: normal;
+                    max-width: 100vw;
+                }
+                [data-player] .media-control[data-media-control].big .ui-plugin {
+                    position: static;
+                }
+                .stream-selector[data-stream-selector] .list-container {
+                    width: max-content;
+                }
+            </style>`
+            )
+        }
+    </script>
+    {% endblock %}
+    

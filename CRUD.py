@@ -1,7 +1,8 @@
 # CRUD classes as vievws.
+from django.core.paginator import Paginator
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
-
+from django.contrib.auth.models import User
 from django.views import View
 from django.shortcuts import render
 from .models import Event
@@ -9,39 +10,28 @@ from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-
-
-
 class EventCreateView(View):
-    """Создание нового события.
-    """
 
     def get(self, request):
         return render(request, 'events/create.html')
 
     def post(self, request):
-        author_id = request.user.id
-        title = request.POST['title']
-        s_dt = request.POST['s_dt']
-        e_dt = request.POST['e_dt']
-        descript = request.POST['descript']
-        # cat = request.POST['cat']
-
         try:
             event = Event.objects.create(
-                title=title,
-                s_dt=s_dt,
-                e_dt=e_dt,
-                descript=descript,
-                author_id=1,
+            title = request.POST['title'],
+            s_dt = request.POST['s_dt'],
+            e_dt = request.POST['e_dt'],
+            descript = request.POST['descript'],
+            author=User.objects.get(pk=request.user.id),
             )
+            event.save()
             return HttpResponseRedirect(reverse('event-detail', args=[event.id]))
-        except ValueError:
-            return render(request, 'events/create.html', {'error': "Некорректные данные."})
+        except ValueError as e:
+            return render(request, 'events/create.html', 
+                          {'error': f"Некорректные данные. {e}"})
 
 class EventCreateView(PermissionRequiredMixin, EventCreateView):
     permission_required = ["ctspi.add_event"]
-
 
 class EventDetailView(View):
     """Детали события.
@@ -57,7 +47,6 @@ class EventDetailView(View):
             'event': event
         }
         return render(request, 'events/detail.html', context)
-
 
 class EventDetailView(PermissionRequiredMixin, EventDetailView):
     permission_required = ["ctspi.view_event"]
@@ -78,10 +67,8 @@ class EventUpdateView(View):
         event.s_dt = request.POST['s_dt']
         event.e_dt = request.POST['e_dt']
         event.descript = request.POST['descript']
-        event.category = request.POST['category']
         event.save()
         return HttpResponseRedirect(reverse('event-detail', args=[event.id]))
-
 
 class EventUpdateView(PermissionRequiredMixin, EventUpdateView):
     permission_required = ["ctspi.change_event"]
@@ -101,6 +88,14 @@ class EventDeleteView(View):
         event.delete()
         return HttpResponseRedirect(reverse('event-list'))
 
-
 class EventDeleteView(PermissionRequiredMixin, EventDeleteView):
     permission_required = ["ctspi.delete_event"]
+
+
+def blog(request):
+    paginator = Paginator(Event.objects.all().order_by(
+        '-s_dt'), 5)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    context = {'events': page_obj}
+    return render(request, 'blog.html', context=context)
