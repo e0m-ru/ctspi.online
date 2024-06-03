@@ -14,19 +14,30 @@
     --red-dark:   hsl(var(--r),var(--s),calc(var(--l)*.5));
     --green-dark: hsl(var(--g),var(--s),calc(var(--l)*.5));
     --blue-dark:  hsl(var(--b),var(--s),calc(var(--l)*.5));
+
+    --red-light:   hsl(var(--r),var(--s),calc(var(--l)*2));
+    --green-light: hsl(var(--g),var(--s),calc(var(--l)*2));
+    --blue-light:  hsl(var(--b),var(--s),calc(var(--l)*2));
 }
 
 
 ::placeholder {
     color: var(--light);
-    font-size:xx-small;
-    font-family: "Roboto Mono";
 }
 
 body {
     background-color: var(--blue-dark);
 }
 
+header,
+footer {
+    color: var(--light);
+    background-color: var(--blue);
+}
+
+footer a:hover {
+    color: var(--white);
+}
 /* Scroll style */
 * {
     scrollbar-width: thin;

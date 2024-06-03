@@ -88,13 +88,11 @@ a.btn {
     color: var(--light);
     width: fit-content;
     border-radius: .333rem;
-        padding: .5rem 1rem;
-        border: 2px solid var(--light);
-        outline: none;
-        width: auto;
+    padding: .5rem 1rem;
+    border: 2px solid var(--light);
+    outline: none;
+    width: auto;
 }
-
-
 
 /* search box */
 
