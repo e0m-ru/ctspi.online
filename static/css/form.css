@@ -40,7 +40,7 @@ form.form_grid * {
 .button,
 button {
     color: var(--light);
-    background-color: var(--gray);
+    background-color: var(--blue);
     cursor: pointer;
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
@@ -103,17 +103,17 @@ a.btn {
 .input-search {
     margin: auto;
     padding: .5rem 1rem;
-    width: 1rem;
-    transition: all .5s ease-in-out;
+    /* width: 1rem; */
+    /* transition: all .5s ease-in-out; */
 }
 
-.btn-search:focus~.input-search {
+/* .btn-search:focus~.input-search {
     width: 300px;
     transition: all 500ms ease-out;
-}
+} */
 
-.input-search:hover,
+/* .input-search:hover,
 .input-search:focus {
     width: 300px;
     transition: all 500ms ease-in-out;
-}
+} */

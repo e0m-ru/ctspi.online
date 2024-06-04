@@ -1,17 +1,19 @@
 #menu {
     position: absolute;
-    right: 0;
+    right: 1rem;
     top: 2rem;
     overflow: hidden;
-    height: 0px;
+    height: 0;
     opacity: 0%;
-    transition: all 1s ease-in-out;
+    transition: all .5s ease-in-out;
     background-color: var(--blue);
+    padding-bottom: 2rem;
 }
 
 #menu.show {
     height: fit-content;
-    opacity: 97.5%;
+    opacity: 100%;
+    transition: all .5s ease-in-out;
 }
 
 #menu ul {
