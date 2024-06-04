@@ -1,13 +1,9 @@
 {% extends "header.html" %}
 
-{% block title %}{{post.title}}{% endblock %}
+{% block title %}Выход{% endblock %}
 
 {% block content %}
-<form method="post">
-    <h3>Авторизация</h3>
-    {% csrf_token %}
-    <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150"
-        required="" id="id_username">
-    <input type="password" name="password" autocomplete="current-password" required="" id="id_password">
-    <button type="submit" class="btn btn-primary btn-block btn-large">вход</button>
+<p>Вышли из!</p>
+
+<a href="{% url 'login'%}">Нажмите здесь, чтобы снова войти в систему.</a>
 {% endblock %}

@@ -2,17 +2,11 @@
 {% block footer %}
 
 
-<!-- search -->
-<form class="search-box" id="searchForm" method="get" action="/search/">
-    {% csrf_token %}
-    <input id="searchInput" type="text" name="query" class="input-search" placeholder="поисковый запрос">
-</form>
-
-{% if user.is_authenticated %}
+<!-- {% if user.is_authenticated %}
 <a href="/logout/">выход</a>
 {% else %}
 <a href="/login/">вход</a>
-{% endif %}
+{% endif %} -->
 
 <div>
     <h4>ФГУП "ЦТСПИ при МИД РОССИИ"</h4>
@@ -21,5 +15,14 @@
         Россия, 119200, г. Москва, <br>Смоленская-Сенная площадь, дом 32/34
     </p>
 </div>
+
+<!-- search -->
+<form class="search-box" id="searchForm" method="get" action="/search/">
+    {% csrf_token %}
+    <labelbel for="searchInput">Поиск</label>
+    <input id="searchInput" type="text" name="query" class="input-search" placeholder="поисковый запрос">
+</form>
+
+
 
 {% endblock %}
