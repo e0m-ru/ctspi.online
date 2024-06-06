@@ -10,6 +10,7 @@ from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+
 class EventCreateView(View):
 
     def get(self, request):
@@ -18,42 +19,45 @@ class EventCreateView(View):
     def post(self, request):
         try:
             event = Event.objects.create(
-            title = request.POST['title'],
-            s_dt = request.POST['s_dt'],
-            e_dt = request.POST['e_dt'],
-            descript = request.POST['descript'],
-            author=User.objects.get(pk=request.user.id),
+                title=request.POST['title'],
+                s_dt=request.POST['s_dt'],
+                e_dt=request.POST['e_dt'],
+                descript=request.POST['descript'],
+                author=User.objects.get(pk=request.user.id),
             )
             event.save()
             return HttpResponseRedirect(reverse('event-detail', args=[event.id]))
         except ValueError as e:
-            return render(request, 'events/create.html', 
+            return render(request, 'events/create.html',
                           {'error': f"Некорректные данные. {e}"})
+
 
 class EventCreateView(PermissionRequiredMixin, EventCreateView):
     permission_required = ["ctspi.add_event"]
 
-class EventDetailView(View):
-    """Детали события.
-    """
 
+class EventDetailView(View):
     def get(self, request, pk):
         try:
             event = Event.objects.get(pk=pk)
         except Event.DoesNotExist:
-            raise Http404(
-                "Событие не найдено.")
+            raise Http404("Событие не найдено.")
         context = {
-            'event': event
+            'title': f"Событие №{pk}",
+            'event': event,
+            'prev_page': request.META.get('HTTP_REFERER')
         }
         return render(request, 'events/detail.html', context)
+
 
 class EventDetailView(PermissionRequiredMixin, EventDetailView):
     permission_required = ["ctspi.view_event"]
 
+
 class EventUpdateView(View):
     """Updating the event.
     """
+
     def get(self, request, pk):
         try:
             event = Event.objects.get(pk=pk)
@@ -70,8 +74,10 @@ class EventUpdateView(View):
         event.save()
         return HttpResponseRedirect(reverse('event-detail', args=[event.id]))
 
+
 class EventUpdateView(PermissionRequiredMixin, EventUpdateView):
     permission_required = ["ctspi.change_event"]
+
 
 class EventDeleteView(View):
     """Removing the event."""
@@ -87,6 +93,7 @@ class EventDeleteView(View):
         event = Event.objects.get(pk=pk)
         event.delete()
         return HttpResponseRedirect(reverse('event-list'))
+
 
 class EventDeleteView(PermissionRequiredMixin, EventDeleteView):
     permission_required = ["ctspi.delete_event"]

@@ -1,6 +1,6 @@
 from django.urls import re_path, path, include
 from ctspi import views
-from ctspi.forms import EventTitle, EventDescription, EventWizard
+from ctspi.forms import *
 
 urlpatterns = [
      path("accounts/", include("django.contrib.auth.urls")),

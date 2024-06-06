@@ -1,15 +1,4 @@
-{% extends "base.html" %}
-{% block footer %}
-
-
-<!-- {% if user.is_authenticated %}
-<a href="/logout/">выход</a>
-{% else %}
-<a href="/login/">вход</a>
-{% endif %} -->
-
-<div>
-    <h4>ФГУП "ЦТСПИ при МИД РОССИИ"</h4>
+<div id="contact_info">
     <p>+7 (499) 244-22-14</br>
         info@mfarf.ru</br>
         Россия, 119200, г. Москва, <br>Смоленская-Сенная площадь, дом 32/34
@@ -17,12 +6,8 @@
 </div>
 
 <!-- search -->
-<form class="search-box" id="searchForm" method="get" action="/search/">
+<!-- <form class="search-box" id="searchForm" method="get" action="/search/">
     {% csrf_token %}
     <labelbel for="searchInput">Поиск</label>
     <input id="searchInput" type="text" name="query" class="input-search" placeholder="поисковый запрос">
-</form>
-
-
-
-{% endblock %}
+</form> -->

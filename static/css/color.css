@@ -29,6 +29,10 @@ body {
     background-color: var(--blue-dark);
 }
 
+.main {
+    background-color: var(--white);
+}
+
 header,
 footer {
     color: var(--light);
@@ -38,6 +42,8 @@ footer {
 footer a:hover {
     color: var(--white);
 }
+
+
 /* Scroll style */
 * {
     scrollbar-width: thin;
@@ -45,4 +51,44 @@ footer a:hover {
     /* overflow: auto; */
     scrollbar-width: thin;
     scrollbar-color: hsl(0 0% 50%);
+}
+
+.button,
+button {
+    color: var(--light);
+    background-color: var(--blue);
+}
+
+.button:hover,
+.button:active,
+.button:focus,
+button:hover,
+button:active,
+button:focus {
+    color: var(--white);
+    background-color: var(--blue);
+}
+
+.btn_red {
+    background-color: var(--red-dark);
+}
+
+.btn_red:hover {
+    background-color: var(--red);
+}
+
+.btn_green {
+    background-color: var(--green-dark);
+}
+
+.btn_green:hover {
+    background-color: var(--green);
+}
+
+.btn_blue {
+    background-color: var(--blue-dark);
+}
+
+.btn_blue:hover {
+    background-color: var(--blue);
 }

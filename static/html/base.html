@@ -1,32 +1,39 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
-{% load static %}
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
-    <title>{% block title %}Сайт ФГУП "ЦТСПИ"{% endblock %}</title>
+    <title>
+        {% block title %}
+            {% if post %}
+                {{post.title}}
+            {% else %}
+                {{ title }}
+            {% endif %}
+        {% endblock %}
+    </title>
 </head>
 
 <body>
     <div class="root">
         <header>
-            {% block header %}
-            {% endblock %}
+            {% include 'header.html' %}
+
         </header>
 
         <main class="main">
-            <div class="main-big-content">
+            <div class="">
                 {% block content %}
                 {% endblock %}
             </div>
         </main>
 
         <footer>
-            {% block footer %}
-            {% endblock %}
+            {% include 'footer.html' %}
         </footer>
     </div>
 </body>

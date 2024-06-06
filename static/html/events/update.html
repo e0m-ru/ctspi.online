@@ -1,4 +1,5 @@
-{% extends "header.html" %}
+{% extends "base.html" %}
+
 
 {% block title %}{{post.title}}{% endblock %}
 
@@ -10,11 +11,11 @@
     <input style="font-size: 1.5rem;" type="text" name="title" id="title" value="{{ event.title }}" required>
     <input type="datetime-local" name="s_dt" id="s_dt" value="{{ event.s_dt|date:'Y-m-d\TH:i' }}" required>
     <input type="datetime-local" name="e_dt" id="e_dt" value="{{ event.e_dt|date:'Y-m-d\TH:i' }}" required>
-    <textarea name="descript" id="descript" rows="10" cols="72">{{ event.descript }}</textarea>
+    <textarea name="descript" id="descript" rows="10">{{ event.descript }}</textarea>
     <input type="text" name="category" id="category" value="{{ event.category }}" required>
-    <button class="btn_green" type="submit">Обновить</button>
+    <button class="btn_green" type="submit">Сохранить</button>
+    <a href="/event/{{event.id}}/" class="btn_blue btn center_text">Отменить</a>
     <a href="/event/{{event.id}}/delete/" class="btn_red btn center_text">Удалить</a>
-    <a href="/" class="btn_blue btn center_text">Отменить</a>
 
 </form>
 {% endblock %}

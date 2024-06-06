@@ -2,6 +2,9 @@ from formtools.wizard.views import SessionWizardView
 from django.http import HttpResponseRedirect
 from django import forms
 from datetime import datetime
+from .models import Event
+from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class SearchForm(forms.Form):
@@ -27,38 +30,66 @@ class DateTimeLocalField(forms.DateTimeField):
     widget = DateTimeLocalInput(format="%Y-%m-%dT%H:%M")
 
 
-class EventTitle(forms.Form):
+class EventTitleForm(forms.Form):
     # form 1
     title = forms.CharField(
-        label='Заголовок',
+        label='Название',
         max_length=100,
         min_length=3,
         strip=True,
     )
-    
 
-class EventTitle2(forms.Form):
-    date_Time = DateTimeLocalField(
-        required=bool,
-        label='Дата и время',
-        initial=datetime.now(),
-        
+
+class EventDTForm(forms.Form):
+    # form 2
+    s_dt = DateTimeLocalField(
+        label='Дата и Время',
+        required=True,
+    )
+    e_dt = DateTimeLocalField(
+        label='Дата и Время',
     )
 
 
-class EventDescription(forms.Form):
-    # form 2
-    description = forms.CharField(
+class EventCategoryForm(forms.Form):
+    # form 4
+    # category =
+    descript = forms.CharField(
+        label='Описание',
         widget=forms.Textarea(),
+    )
+
+
+class EventDescriptionForm(forms.Form):
+    # form 5
+    description = forms.CharField(
+        label='Место',
     )
 
 
 class EventWizard(SessionWizardView):
     template_name = "EventWizardForm.html"
-    form_list = [EventTitle, EventTitle2, EventDescription]
+    form_list = [EventTitleForm, EventDTForm,
+                 EventCategoryForm, EventDescriptionForm]
 
     def done(self, form_list, **kwargs):
-        form_data = [form.cleaned_data for form in form_list]
+        form_data = dict()
+        for form in form_list:
+            form_data.update(form.cleaned_data)
+        # [form.cleaned_data for form in form_list]
+        print(form_data)
         # обработка данных
-
+        try:
+            event = Event.objects.create(
+                title=form_data['title'],
+                s_dt=form_data['s_dt'],
+                e_dt=form_data['e_dt'],
+                descript=form_data['descript'],
+                author=User.objects.get(pk=1),
+            )
+            event.save()
+            return HttpResponseRedirect(reverse('event-detail', args=[event.id]))
+        except ValueError as e:
+            return e
+        
         return HttpResponseRedirect('/finished/')

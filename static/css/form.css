@@ -1,53 +1,60 @@
-/* .form_grids  */
 .form_grid {
-    background-color: #fff;
-    padding: 1rem;
-
     display: grid;
     gap: .5rem;
-    grid-template-areas:
-        "A A A"
-        "B C D"
-        "F F F"
-        "X Y Z";
+    grid-template-columns: 1fr;
+}
+
+.detail_grid {
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: 1fr;
+}
+
+@media only screen and (min-width: 480px) {
+    .form_grid {
+            display: grid;
+            gap: .5rem;
+            grid-template-areas:
+                "A A A"
+                "B C D"
+                "F F F"
+                "X Y Z";
+        }
+                .form_grid #title {
+                    grid-area: A;
+                }
+        
+                .form_grid #descript {
+                    grid-area: F;
+                    resize: vertical;
+                }
 }
 form.form_grid{
     border-radius: .333rem;
 }
 
-form.form_grid * {
+/* form.form_grid * {
     border-radius: .333rem;
     padding: .5rem 1rem;
     border: 2px solid var(--light);
     outline: none;
-}
+} */
 
-.form_grid *:focus {
+.form_grid input:focus {
     color: var(--red);
     background-color: var(--light);
     border-color: red;
 }
 
-.form_grid #title {
-    grid-area: A;
-}
-
-.form_grid #descript {
-    grid-area: F;
-    resize: vertical;
-}
 
 .button,
 button {
-    color: var(--light);
-    background-color: var(--blue);
     cursor: pointer;
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
     border: none;
     border-radius: .333rem;
     padding: .5rem 1rem;
-    border: 2px solid var(--light);
     outline: none;
 }
 
@@ -59,27 +66,8 @@ button:active,
 button:focus {
     text-decoration: none;
     opacity: 1;
-    color: var(--white);
 }
 
-.btn_red {
-    background-color: var(--red-dark);
-}
-.btn_red:hover {
-    background-color: var(--red);
-}
-.btn_green {
-    background-color: var(--green-dark);
-}
-.btn_green:hover {
-    background-color: var(--green);
-}
-.btn_blue {
-    background-color: var(--blue-dark);
-}
-.btn_blue:hover {
-    background-color: var(--blue);
-}
 
 a.btn {
     padding: .5rem 1rem;
@@ -89,15 +77,8 @@ a.btn {
     width: fit-content;
     border-radius: .333rem;
     padding: .5rem 1rem;
-    border: 2px solid var(--light);
     outline: none;
     width: auto;
-}
-
-/* search box */
-
-.search-box {
-
 }
 
 .input-search {
