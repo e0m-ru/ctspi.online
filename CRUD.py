@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.views import View
 from django.shortcuts import render
-from .models import Event
+from .models import Event, EventLocation
 from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -23,6 +23,7 @@ class EventCreateView(View):
                 s_dt=request.POST['s_dt'],
                 e_dt=request.POST['e_dt'],
                 descript=request.POST['descript'],
+                location=request.POST['location'],
                 author=User.objects.get(pk=request.user.id),
             )
             event.save()
@@ -55,15 +56,13 @@ class EventDetailView(PermissionRequiredMixin, EventDetailView):
 
 
 class EventUpdateView(View):
-    """Updating the event.
-    """
-
     def get(self, request, pk):
         try:
             event = Event.objects.get(pk=pk)
+            loc = EventLocation.objects.all()
         except Event.DoesNotExist:
             raise Http404(f"The event id:{pk} was not found.")
-        return render(request, 'events/update.html', {'event': event})
+        return render(request, 'events/update.html', {'event': event, 'location': loc})
 
     def post(self, request, pk):
         event = Event.objects.get(pk=pk)
@@ -71,6 +70,7 @@ class EventUpdateView(View):
         event.s_dt = request.POST['s_dt']
         event.e_dt = request.POST['e_dt']
         event.descript = request.POST['descript']
+        event.location = EventLocation.objects.get(pk=request.POST['location'])
         event.save()
         return HttpResponseRedirect(reverse('event-detail', args=[event.id]))
 

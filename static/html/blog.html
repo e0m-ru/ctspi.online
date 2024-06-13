@@ -10,16 +10,17 @@
 <div class="event-card">
     <div class="header">
         <time class="date">{{e.s_dt|date:"d.m.y"}}</time>
-        <span class="id">{{e.id}}</span>
+        <span class="id">#{{e.id}}</span>
         <span class="category">{{e.category}}</span>
-    </div>
+        </div>
+    <address class="author">автор: {{e.author}}</address>
     <a href="/event/{{e.id}}/">
-    <h4 class="title">{{ e.title }}</h4>
+        <h4 class="title">{{ e.title }}</h4>
     </a>
     <p class="body">{{ e.descript|truncatechars:256}}</p>
     <!-- <div class="footer">
-        <p>Подвал - заглушка</p>
-    </div> -->
+                <p>Подвал - заглушка</p>
+                </div> -->
 </div>
 
 {% endfor %}

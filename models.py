@@ -17,6 +17,15 @@ class Department(models.Model):
     def __str__(self):
         return self.title
 
+
+class EventType(models.Model):
+    title = models.CharField(max_length=10)
+    description = models.CharField(max_length=255, blank=False, null=False)
+    
+class EventLocation(models.Model):
+    title = models.CharField(max_length=10)
+    description = models.CharField(max_length=255, blank=False, null=False)
+
 class Event(models.Model):
     title    = models.CharField(max_length=255, blank=False, null=False)
     s_dt     = models.DateTimeField(blank=True, null=True)
@@ -24,3 +33,4 @@ class Event(models.Model):
     descript = models.TextField(blank=True, null=True)
     category = models.CharField(max_length=20, blank=True, null=True)
     author   = models.ForeignKey(User, on_delete=models.CASCADE)
+    location = models.ForeignKey(EventLocation, on_delete=models.CASCADE, blank=True, null=True)

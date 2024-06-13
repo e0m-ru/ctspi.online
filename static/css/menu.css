@@ -1,43 +1,34 @@
 #menu {
     position: absolute;
+    padding: 0;
+    margin: 0;
     right: 1rem;
-    top: 2rem;
+    top: 3rem;
     overflow: hidden;
     height: 0;
     opacity: 0%;
-    transition: all .5s ease-in-out;
     background-color: var(--blue);
-    padding-bottom: 2rem;
+    transition: all .5s ease-in-out;
 }
 
 #menu.show {
-    height: fit-content;
+    height: auto;
     opacity: 100%;
     transition: all .5s ease-in-out;
 }
 
-#menu ul {
-    margin: 0;
-}
 
 #menu li {
     border-bottom: solid var(--light);
-    width: 100%;
     list-style: none;
 }
-
-/* #menu li:hover {
-    background-color: var(--dark-color);
-} */
 
 #menu a {
     padding: 0.5rem 1rem;
     display: inline-block;
     color: white;
-    text-decoration: none;
-    background-color: none;
-    height: 100%;
     width: 100%;
+    text-decoration: none;
 }
 
 #menu a:hover {

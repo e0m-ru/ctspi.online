@@ -13,6 +13,21 @@
     <input type="datetime-local" name="e_dt" id="e_dt" value="{{ event.e_dt|date:'Y-m-d\TH:i' }}" required>
     <textarea name="descript" id="descript" rows="10">{{ event.descript }}</textarea>
     <input type="text" name="category" id="category" value="{{ event.category }}" required>
+    <select name="location" id="location">
+        <option value="">Помещение</option>
+        {% for el in location %}
+        <option value="{{el.id}}">{{ el.title }}</option>
+        {% endfor %}
+    </select>
+
+    <select data-placeholder="Begin typing a name to filter..." multiple class="chosen-select" name="test">
+            <option value=""> </option>
+            {% for el in location %}
+            <option value="{{el.id}}">{{ el.title }}</option>
+            {% endfor %}
+    </select>
+
+
     <button class="btn_green" type="submit">Сохранить</button>
     <a href="/event/{{event.id}}/" class="btn_blue btn center_text">Отменить</a>
     <a href="/event/{{event.id}}/delete/" class="btn_red btn center_text">Удалить</a>

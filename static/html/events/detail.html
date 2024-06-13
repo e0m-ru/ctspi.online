@@ -8,13 +8,13 @@
     <time>c {{ event.s_dt | date:'y.m.d H:i' }}</time>
     <time>по {{ event.e_dt | date:'y.m.d H:i' }}</time>
     <span id="cat">{{ event.category }}</span>
-    <span id="cat">{{ event.location }}</span>
+    <span id="location">{{ event.location.title }}</span>
     <p id="descript">{{ event.descript }}</p>
-    <span>{{ event.author }}</span>
+    <span>{{ event.author }}</span> 
 
     {% if user.is_authenticated %}
     <a href="{{ prev_page }}" class="btn_blue btn center_text">назад</a>
-    <a href="/event/{{event.id}}/update/" class="btn_green btn center_text">редактировать</a>
+    <a href="/event/{{event.id}}/update/" class="btn_green btn center_text">изменить</a>
     {% endif %}
 </div>
 {% endblock %}
