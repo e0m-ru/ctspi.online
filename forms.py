@@ -93,3 +93,5 @@ class EventWizard(SessionWizardView):
             return e
         
         return HttpResponseRedirect('/finished/')
+
+

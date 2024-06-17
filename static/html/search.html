@@ -9,27 +9,26 @@
     Найдено {{ total_results }} результатов
     {% endwith %}
 </h3>
+
 {% for e in results %}
 <div class="event-card">
     <div class="header">
-        <span class="category">{{e.category}}</span>
-        <span class="date">{{e.s_dt|date:"d M Y"}}</span>
+        <time class="date">{{e.s_dt|date:"d.m.y"}}</time>
         <span class="id">#{{e.id}}</span>
+        <span class="category">{{e.category}}</span>
     </div>
+    <address class="author">автор: {{e.author}}</address>
     <a href="/event/{{e.id}}/">
         <h4 class="title">{{ e.title }}</h4>
     </a>
-    <p class="small">{{ e.descript|truncatechars:128}}</p>
-    <!-- <div class="footer">
-        <p>Подвал - заглушка</p>
-    </div> -->
+    <p class="body">{{ e.descript|truncatechars:128}}</p>
 </div>
 
-{{ event.descript|truncatewords_html:12 }}
-
 {% empty %}
-<p>Нет результатов</p>
+<p>Ничего не нашли (</p>
 {% endfor %}
+
+
 <p><a href="/search/">Искать ещё раз</a></p>
 
 {% else %}
@@ -37,7 +36,7 @@
 <h1>Поиск событий</h1>
 <form method="get">
     {{ form.as_p }}
-    <input type="submit" value="Search" placeholder="поисковый запрос">
+    <input type="submit" value="поиск" placeholder="поисковый запрос">
 </form>
 {% endif %}
 

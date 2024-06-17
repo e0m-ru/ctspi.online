@@ -1,11 +1,14 @@
 # CRUD classes as vievws.
+import datetime
 from django.core.paginator import Paginator
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.views import View
 from django.shortcuts import render
-from .models import Event, EventLocation
+
+from .YA_CalDAV import push_caldav
+from .models import Event, EventLocation, Main_contents
 from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -23,7 +26,8 @@ class EventCreateView(View):
                 s_dt=request.POST['s_dt'],
                 e_dt=request.POST['e_dt'],
                 descript=request.POST['descript'],
-                location=request.POST['location'],
+                location=EventLocation.objects.get(
+                    pk=request.POST['location']),
                 author=User.objects.get(pk=request.user.id),
             )
             event.save()
@@ -72,6 +76,9 @@ class EventUpdateView(View):
         event.descript = request.POST['descript']
         event.location = EventLocation.objects.get(pk=request.POST['location'])
         event.save()
+        push_caldav(datetime.datetime.fromisoformat(event.s_dt), 
+                    datetime.datetime.fromisoformat(event.e_dt),
+                    event.title)
         return HttpResponseRedirect(reverse('event-detail', args=[event.id]))
 
 
@@ -104,5 +111,7 @@ def blog(request):
         '-s_dt'), 5)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    context = {'events': page_obj}
+    context = {'name': request.path,
+               'items': Main_contents.objects.all(),
+               'events': page_obj}
     return render(request, 'blog.html', context=context)

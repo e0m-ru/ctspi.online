@@ -30,7 +30,10 @@ def departments(request):
 
 
 def ctspi_404(request):
-    return render(request, '404.html', status=404, context={'name': request.path})
+    context = {'name': request.path,
+    'items': Main_contents.objects.all()
+    }
+    return render(request, '404.html', status=404, context=context)
 
 
 def event_search(request):
@@ -48,4 +51,7 @@ def event_search(request):
     return render(request, 'search.html', {'form': form, 'query': query, 'results': results})
 
 def player(request):
-    return render(request, 'player.html')
+    context = {'name': request.path,
+               'items': Main_contents.objects.all()
+               }
+    return render(request, 'player.html', context=context)

@@ -1,13 +1,23 @@
-<div id="contact_info">
-    <p>+7 (499) 244-22-14</br>
-        info@mfarf.ru</br>
-        Россия, 119200, г. Москва, <br>Смоленская-Сенная площадь, дом 32/34
-    </p>
-</div>
+<details id="contact_info">
+    <summary>Контакты:</summary>
+        <p>
+            <a href="tel:+7 499 244-22-14" style="color: var(--light);">+7 499 244-22-14</a></br>
+            <a href="mailto:info@mfarf.ru" style="color: var(--light);">info@mfarf.ru</a></br>
+            119200 Россия, Москва, <br>Смоленская-Сенная площадь, 32/34
+        </p>
+</details>
+
 
 <!-- search -->
-<!-- <form class="search-box" id="searchForm" method="get" action="/search/">
+<form class="search-box" id="searchForm" method="get" action="/search/">
     {% csrf_token %}
-    <labelbel for="searchInput">Поиск</label>
     <input id="searchInput" type="text" name="query" class="input-search" placeholder="поисковый запрос">
-</form> -->
+</form>
+
+{% if user.is_authenticated %}
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn_red"> Выход </button>
+</form>
+{% endif %}
+
