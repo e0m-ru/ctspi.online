@@ -1,9 +1,11 @@
 import datetime
 import caldav
-from .secrets import CALDAV_URL, USERNAME, PASSWORD
+import os
 
 def push_caldav(start, end, sum):
-    with caldav.DAVClient(url=CALDAV_URL, username=USERNAME, password=PASSWORD) as client:
+    with caldav.DAVClient(url=os.environ['CALDAV_URL'], 
+			username=os.environ['USERNAME'], 
+			password=os.environ['PASSWORD']) as client:
         my_principal = client.principal()
         calendar = my_principal.calendar('test')
         calendar.save_event(
